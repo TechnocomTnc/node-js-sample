@@ -90,38 +90,40 @@ function reply(reply_token,ans) {
     // if (msg == quest){
     //         ans = "ดีครับ";
     // }
-    let headers = {
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer {7YR60AJ855Zu1Etxsc7aCdFqhip1o8yAKj7PzLe90ClE9Po0fz5o81BeghtpCki4+zFZ7FrYjjbrFvQw84+Axi+P1zWPnxSCTl/lF5gVTDaDqdC5IHk30qnjo7GQ1hHKizexgGNpBPn/Fwz3slJqkQdB04t89/1O/w1cDnyilFU=}'
-    }
-    let body = JSON.stringify({
-
-    sql.connect(dbConfig, function (err) {
+sql.connect(dbConfig, function (err) {
         if (err) console.log(err);
         // create Request object
         var request = new sql.Request();
         // query to the database and get the records
         request.query('SELECT q_topic FROM Question', function (err, recordset) {
-        ans = rows.recordset[1].q_topic
-
-        replyToken: reply_token,
-        messages: [{
-            type: 'text',
-            text: ans
-        }]
+            ans = rows.recordset[1].q_topic
             
+
+        let headers = {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer {7YR60AJ855Zu1Etxsc7aCdFqhip1o8yAKj7PzLe90ClE9Po0fz5o81BeghtpCki4+zFZ7FrYjjbrFvQw84+Axi+P1zWPnxSCTl/lF5gVTDaDqdC5IHk30qnjo7GQ1hHKizexgGNpBPn/Fwz3slJqkQdB04t89/1O/w1cDnyilFU=}'
+        }
+        let body = JSON.stringify({
+            replyToken: reply_token,
+            messages: [{
+                type: 'text',
+                text: ans
+            }]
+        })
+        request.post({
+            url: 'https://api.line.me/v2/bot/message/reply',
+            headers: headers,
+            body: body
+        }, (err, res, body) => {
+            console.log('status = ' + res.statusCode);
+        });
+
+
         });
     });
 
 
-    })
-    request.post({
-        url: 'https://api.line.me/v2/bot/message/reply',
-        headers: headers,
-        body: body
-    }, (err, res, body) => {
-        console.log('status = ' + res.statusCode);
-    });
+    
 }
 
 
