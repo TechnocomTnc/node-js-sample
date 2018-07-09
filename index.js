@@ -45,9 +45,8 @@ app.post('/webhook', (req, res) => {
             // ans = recordset.recordset[0].q_topic
             ans = msg 
             reply(reply_token,ans) 
-              
         });
-        conn.close();   
+        // conn.close();   
     });
         // ans = msg 
         // reply(reply_token,ans) 
