@@ -21,9 +21,9 @@ app2.use(bodyParser2.urlencoded({
 
 var dbConfig = {
         user: 'sa',
-        password: 'p@ssw0rd',
-        server: 'localhost', 
-        database: 'DB1',
+        password: 'P@ssw0rd1234',
+        server: 'demomagic2.southeastasia.cloudapp.azure.com', 
+        database: 'LinebotDB',
         port:1433,
         options: {
             encrypt: false // Use this if you're on Windows Azure
@@ -35,8 +35,8 @@ sql.connect(dbConfig, function (err) {
         // create Request object
         var request = new sql.Request();
         // query to the database and get the records
-        request.query('select Name from Customer', function (err, recordset) {
-            ans = recordset.recordset[0].Name
+        request.query('SELECT q_topic FROM Question', function (err, recordset) {
+            ans = rows.recordset[1].q_topic
             // if (err) console.log(err)
             // ans = "asasas"
             // send records as a response
