@@ -38,17 +38,17 @@ app.post('/webhook', (req, res) => {
     let reply_token = req.body.events[0].replyToken
     let msg = req.body.events[0].message.text
     // conn.close();  
-    sql.connect(dbConfig, function (err) {
-        // create Request object
-        var request = new sql.Request();
-        // query to the database and get the records
-       request.query('SELECT q_topic FROM Question').then(function (rows) 
-                  {
-                    nnamen = rows.recordset[1].q_topic;
+    // sql.connect(dbConfig, function (err) {
+    //     // create Request object
+    //     var request = new sql.Request();
+    //     // query to the database and get the records
+    //    request.query('SELECT q_topic FROM Question').then(function (rows) 
+    //               {
+    //                 nnamen = rows.recordset[1].q_topic;
                     reply(reply_token,nnamen)
                     // conn.close();                     
-                  })
-    });
+    //               })
+    // });
         // ans = msg 
         // reply(reply_token,ans) 
 
@@ -57,7 +57,13 @@ app.post('/webhook', (req, res) => {
 
 
 app.listen(port)
-function reply(reply_token,ans) {        
+function reply(reply_token,ans) {
+    
+
+
+
+
+
     // ans = msg;
     // if (msg == quest){
     //         ans = "ดีครับ";
@@ -71,7 +77,16 @@ function reply(reply_token,ans) {
         replyToken: reply_token,
         messages: [{
             type: 'text',
-            text: ans
+            text: sql.connect(dbConfig, function (err) {
+                    // create Request object
+                        var request = new sql.Request();
+                    // query to the database and get the records
+                    request.query('SELECT q_topic FROM Question').then(function (rows) 
+                                {
+                    nnamen = rows.recordset[1].q_topic;
+                    // conn.close();                     
+                  })
+    });
         }]
         
     })
