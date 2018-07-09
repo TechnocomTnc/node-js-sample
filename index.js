@@ -31,13 +31,21 @@ var dbConfig = {
         }
 };
 
-
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
-app.post('/webhook', function (req, res) => {
+app.post('/webhook', (req, res) => {
     let reply_token = req.body.events[0].replyToken
-    let msg = req.body.events[0].message.text
-    reply(reply_token, msg)
+    //let msg = req.body.events[0].message.text
+
+    var conn = new sql.ConnectionPool(dbConfig);
+    conn.connect().then(function () {
+                  var req = new sql.Request(conn);
+                  req.query('SELECT * FROM Customer').then(function (rows) {
+                      ans = "A=" + rows.recordset[0].Name  
+                        conn.close();                    
+                  })  
+    })
+    reply(reply_token, ans)
     res.sendStatus(200)
 })
 
@@ -50,15 +58,8 @@ app.post('/webhook', function (req, res) => {
 //                   req.query('SELECT * FROM Customer').then(function (rows) {
 //                         res.send(rows);
 //                           conn.close();                    
-//                   })
-//                   .catch(function (err) {
-//                       conn.close();
-//                       res.send(err);
-//                   });        
+//                   })  
 //     })
-//     .catch(function (err) {
-//         res.send(err);
-//     });
 // });
 
 
@@ -68,11 +69,11 @@ app.post('/webhook', function (req, res) => {
 
 
 app.listen(port)
-function reply(reply_token, msg) {        
-    ans = msg;
-    if (msg == quest){
-            ans = "ดีครับ";
-    }
+function reply(reply_token, ans) {        
+    // ans = msg;
+    // if (msg == quest){
+    //         ans = "ดีครับ";
+    // }
     let headers = {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer {7YR60AJ855Zu1Etxsc7aCdFqhip1o8yAKj7PzLe90ClE9Po0fz5o81BeghtpCki4+zFZ7FrYjjbrFvQw84+Axi+P1zWPnxSCTl/lF5gVTDaDqdC5IHk30qnjo7GQ1hHKizexgGNpBPn/Fwz3slJqkQdB04t89/1O/w1cDnyilFU=}'
