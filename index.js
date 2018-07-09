@@ -30,16 +30,23 @@ var dbConfig = {
         }
 };
 
-var conn = new sql.ConnectionPool(dbConfig);
-conn.connect().then(function () {
-                var reqs = new sql.Request(conn);
-                reqs.query('SELECT * FROM Customer').then(function (rows) {
-                //   ans = "A " + rows.recordset[0].Name
-                ans = "asasassdasds"
-                    conn.close();                    
-                })
-})
+sql.connect(dbConfig, function (err) {
+    
+        if (err) console.log(err);
 
+        // create Request object
+        var request = new sql.Request();
+           
+        // query to the database and get the records
+        request.query('select * from Customer', function (err, recordset) {
+            
+            if (err) console.log(err)
+            ans = "asasas"
+            // send records as a response
+            //res.send(recordset);
+            
+        });
+    });
 
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
