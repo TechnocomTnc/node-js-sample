@@ -40,7 +40,7 @@ sql.connect(dbConfig, function (err) {
         // query to the database and get the records
         request.query('select * from Customer', function (err, recordset) {
             
-            if (err) console.log(err)
+            // if (err) console.log(err)
             ans = "asasas"
             // send records as a response
             //res.send(recordset);
