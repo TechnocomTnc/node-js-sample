@@ -9,15 +9,8 @@ var ans = "ครับ"
 var app2 = require('express')();
 var sql = require('mssql');
 var sqlInstance = require("mssql");
-var bodyParser2 = require('body-parser');
 var nodemailer = require('nodemailer');
 
-
-// parse application/json
-app2.use(bodyParser2.json());
-app2.use(bodyParser2.urlencoded({
-    extended: true
-}));
 
 var dbConfig = {
         user: 'sa',
@@ -30,7 +23,7 @@ var dbConfig = {
         }
 };
 
-app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 app.post('/webhook', (req, res) => {
     let reply_token = req.body.events[0].replyToken
