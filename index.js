@@ -30,20 +30,20 @@ var dbConfig = {
         }
 };
 
-sql.connect(dbConfig, function (err) {
-        if (err) console.log(err);
-        // create Request object
-        var request = new sql.Request();
-        // query to the database and get the records
-        request.query('SELECT q_topic FROM Question', function (err, recordset) {
-            ans = rows.recordset[1].q_topic
-            // if (err) console.log(err)
-            // ans = "asasas"
-            // send records as a response
-            //res.send(recordset);
+// sql.connect(dbConfig, function (err) {
+//         if (err) console.log(err);
+//         // create Request object
+//         var request = new sql.Request();
+//         // query to the database and get the records
+//         request.query('SELECT q_topic FROM Question', function (err, recordset) {
+//             ans = rows.recordset[1].q_topic
+//             // if (err) console.log(err)
+//             // ans = "asasas"
+//             // send records as a response
+//             //res.send(recordset);
             
-        });
-    });
+//         });
+//     });
 
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
@@ -96,12 +96,24 @@ function reply(reply_token,ans) {
     }
     let body = JSON.stringify({
 
+    sql.connect(dbConfig, function (err) {
+        if (err) console.log(err);
+        // create Request object
+        var request = new sql.Request();
+        // query to the database and get the records
+        request.query('SELECT q_topic FROM Question', function (err, recordset) {
+        ans = rows.recordset[1].q_topic
+
         replyToken: reply_token,
         messages: [{
             type: 'text',
             text: ans
         }]
-        
+            
+        });
+    });
+
+
     })
     request.post({
         url: 'https://api.line.me/v2/bot/message/reply',
