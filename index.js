@@ -31,17 +31,14 @@ var dbConfig = {
 };
 
 sql.connect(dbConfig, function (err) {
-    
         if (err) console.log(err);
-
         // create Request object
         var request = new sql.Request();
-           
         // query to the database and get the records
-        request.query('select * from Customer', function (err, recordset) {
-            
+        request.query('select Name from Customer', function (err, recordset) {
+            ans = recordset.recordset[0].Name
             // if (err) console.log(err)
-            ans = "asasas"
+            // ans = "asasas"
             // send records as a response
             //res.send(recordset);
             
