@@ -2,17 +2,37 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const request = require('request')
 const app = express()
-
-var app = require('express')();
-var sql = require('mssql');
-var sqlInstance = require("mssql");
-// var nodemailer = require('nodemailer');
 const port = process.env.PORT || 4000
-
-
-
 var quest = "ดี"
 var ans
+
+
+var app2 = require('express')();
+var sql = require('mssql');
+var sqlInstance = require("mssql");
+var bodyParser2 = require('body-parser');
+var nodemailer = require('nodemailer');
+
+
+// parse application/json
+app2.use(bodyParser2.json());
+app2.use(bodyParser2.urlencoded({
+    extended: true
+}));
+
+var dbConfig = {
+        user: 'sa',
+        password: 'p@ssw0rd',
+        server: 'localhost', 
+        database: 'DB1',
+        port:1433,
+        options: {
+            encrypt: false // Use this if you're on Windows Azure
+        }
+};
+
+
+
 
 
 
