@@ -42,7 +42,8 @@ app.post('/webhook', (req, res) => {
     conn.connect().then(function () {
                   var reqs = new sql.Request(conn);
                   reqs.query('SELECT * FROM Customer').then(function (rows) {
-                      ans = "A " + rows.recordset[0].Name
+                    //   ans = "A " + rows.recordset[0].Name
+                    ans = "asasassdasds"
                         conn.close();                    
                   })
                   reply(reply_token,ans)  
