@@ -40,10 +40,9 @@ app.post('/webhook', (req, res) => {
 
     var conn = new sql.ConnectionPool(dbConfig);
     conn.connect().then(function () {
-                  var req = new sql.Request(conn);
-                  req.query('SELECT * FROM Customer').then(function (rows) {
+                  var reqs = new sql.Request(conn);
+                  reqs.query('SELECT * FROM Customer').then(function (rows) {
                       ans = "A " + rows.recordset[0].Name
-                        
                         conn.close();                    
                   })
                   reply(reply_token,ans)  
@@ -97,7 +96,7 @@ function reply(reply_token,ans) {
         replyToken: reply_token,
         messages: [{
             type: 'text',
-            text:ans
+            text: ans
         }]
         
     })
