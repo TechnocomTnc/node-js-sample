@@ -43,12 +43,13 @@ app.post('/webhook', (req, res) => {
         // query to the database and get the records
         request.query('SELECT q_topic FROM Question WHERE q_id = '+ msg, function (err, recordset) {
             // ans = recordset.recordset[0].q_topic
-           ans = msg 
+            ans = msg 
             reply(reply_token,ans) 
             conn.close();     
         });
     });
-
+        ans = msg 
+         reply(reply_token,ans) 
     // reply(reply_token)
     res.sendStatus(200)
 })
