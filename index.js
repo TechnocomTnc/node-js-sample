@@ -45,7 +45,7 @@ app.post('/webhook', (req, res) => {
        request.query('SELECT q_topic FROM Question').then(function (rows) 
                   {
                     nnamen = rows.recordset[1].q_topic;
-                    reply(reply_token,msg)
+                    reply(reply_token,nnamen)
                     // conn.close();                     
                   })
     });
