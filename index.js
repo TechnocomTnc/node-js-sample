@@ -37,17 +37,7 @@ app.use(bodyParser.json())
 app.get('/webhook', (req, res) => {
     let reply_token = req.body.events[0].replyToken
     let msg = req.body.events[0].message.text
-    sql.connect(dbConfig, function (err) {
-        // create Request object
-        var request = new sql.Request();
-        // query to the database and get the records
-       request.query('SELECT q_topic FROM Question',function (rows) 
-            {
-                nnamen = rows.recordset[0].q_topic;
-                reply(reply_token,nnamen)                   
-            })
-    });
-
+    reply(reply_token,msg)    
     res.sendStatus(200)
 })
 
