@@ -37,19 +37,33 @@ app.post('/webhook', (req, res) => {
     let reply_token = req.body.events[0].replyToken
     //let msg = req.body.events[0].message.text
 
+
     var conn = new sql.ConnectionPool(dbConfig);
     conn.connect().then(function () {
                   var req = new sql.Request(conn);
                   req.query('SELECT * FROM Customer').then(function (rows) {
-                      ans = "A=" + rows.recordset[0].Name  
+                      ans = "A " + rows.recordset[0].Name
+                        
                         conn.close();                    
-                  })  
+                  })
+                  reply(reply_token,ans)  
     })
-    reply(reply_token, ans)
+    
+    // reply(reply_token)
     res.sendStatus(200)
 })
 
-
+// function ansdb (req, res){
+//     var conn = new sql.ConnectionPool(dbConfig);
+//     conn.connect().then(function () {
+//                   var req = new sql.Request(conn);
+//                   req.query('SELECT * FROM Customer').then(function (rows) {
+//                       ans = "A " + rows.recordset[0].Name
+//                         reply(reply_token)
+//                         conn.close();                    
+//                   })  
+//     })
+// }
 
 // app.get('/users', function (req, res) {
 //     var conn = new sql.ConnectionPool(dbConfig);
@@ -69,7 +83,7 @@ app.post('/webhook', (req, res) => {
 
 
 app.listen(port)
-function reply(reply_token, ans) {        
+function reply(reply_token,ans) {        
     // ans = msg;
     // if (msg == quest){
     //         ans = "ดีครับ";
@@ -83,7 +97,7 @@ function reply(reply_token, ans) {
         replyToken: reply_token,
         messages: [{
             type: 'text',
-            text: ans
+            text:ans
         }]
         
     })
