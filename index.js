@@ -46,9 +46,9 @@ app.post('/webhook', (req, res) => {
                     ans = "asasassdasds"
                         conn.close();                    
                   })
-                  reply(reply_token,ans)  
+                 
     })
-    
+     reply(reply_token,ans)  
     // reply(reply_token)
     res.sendStatus(200)
 })
