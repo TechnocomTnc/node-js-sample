@@ -45,7 +45,7 @@ app.post('/webhook', (req, res) => {
         request.query('SELECT q_topic FROM Question WHERE q_id = '+ msg, function (err, recordset) {
             // ans = recordset.recordset[0].q_topic
             var ansq = msg 
-            reply(reply_token,ansq) 
+            //reply(reply_token,ansq) 
            
         });
         // conn.close();   
@@ -53,7 +53,7 @@ app.post('/webhook', (req, res) => {
         // ans = msg 
         // reply(reply_token,ans) 
     reply(reply_token,msg)
-     res.sendStatus(200)
+    res.sendStatus(200)
 })
 
 
