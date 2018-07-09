@@ -43,7 +43,8 @@ app.post('/webhook', (req, res) => {
         var request = new sql.Request();
         // query to the database and get the records
         request.query('SELECT q_topic FROM Question WHERE q_topic ='+msg, function (err, recordset) {
-            ans = recordset.recordset[0].q_topic
+            // ans = recordset.recordset[0].q_topic
+           ans = msg 
             reply(reply_token,ans) 
             conn.close();     
         });
