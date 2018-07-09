@@ -3,7 +3,7 @@ const bodyParser = require('body-parser')
 const request = require('request')
 const app = express()
 
-// var app = require('express')();
+var app = require('express')();
 var sql = require('mssql');
 var sqlInstance = require("mssql");
 // var nodemailer = require('nodemailer');
