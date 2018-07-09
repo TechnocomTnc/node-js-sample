@@ -4,7 +4,7 @@ const request = require('request')
 const app = express()
 const port = process.env.PORT || 4000
 var quest = "ดี"
-var ans
+var ans = "ครับ"
 
 
 var app2 = require('express')();
@@ -46,9 +46,9 @@ app.post('/webhook', (req, res) => {
                     ans = "asasassdasds"
                         conn.close();                    
                   })
-                 
+               
     })
-     reply(reply_token,ans)  
+    reply(reply_token,ans)  
     // reply(reply_token)
     res.sendStatus(200)
 })
