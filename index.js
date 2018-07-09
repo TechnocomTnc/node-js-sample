@@ -37,15 +37,15 @@ app.use(bodyParser.json())
 app.post('/webhook', (req, res) => {
     let reply_token = req.body.events[0].replyToken
     let msg = req.body.events[0].message.text
-    conn.close();  
+//     conn.close();  
     sql.connect(dbConfig, function (err) {
         // create Request object
         var request = new sql.Request();
         // query to the database and get the records
         request.query('SELECT q_topic FROM Question WHERE q_id = '+ msg, function (err, recordset) {
             // ans = recordset.recordset[0].q_topic
-            ans = msg 
-            reply(reply_token,ans) 
+            var ansq = msg 
+            reply(reply_token,ansq) 
         });
         // conn.close();   
     });
