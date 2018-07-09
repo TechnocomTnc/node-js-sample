@@ -44,7 +44,8 @@ app.post('/webhook', (req, res) => {
         // query to the database and get the records
         request.query('SELECT q_topic FROM Question', function (err, recordset) {
             ans = recordset.recordset[1].q_topic
-            reply(reply_token,ans)  
+            reply(reply_token,ans) 
+            conn.close();     
         });
     });
 
