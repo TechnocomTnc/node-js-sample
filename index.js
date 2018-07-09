@@ -6,7 +6,6 @@ const port = process.env.PORT || 4000
 var quest = "ดี"
 var ans = "ครับ"
 
-
 var app2 = require('express')();
 var sql = require('mssql');
 var sqlInstance = require("mssql");
@@ -31,23 +30,22 @@ var dbConfig = {
         }
 };
 
+var conn = new sql.ConnectionPool(dbConfig);
+conn.connect().then(function () {
+                var reqs = new sql.Request(conn);
+                reqs.query('SELECT * FROM Customer').then(function (rows) {
+                //   ans = "A " + rows.recordset[0].Name
+                ans = "asasassdasds"
+                    conn.close();                    
+                })
+})
+
+
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 app.post('/webhook', (req, res) => {
     let reply_token = req.body.events[0].replyToken
     //let msg = req.body.events[0].message.text
-
-
-    var conn = new sql.ConnectionPool(dbConfig);
-    conn.connect().then(function () {
-                  var reqs = new sql.Request(conn);
-                  reqs.query('SELECT * FROM Customer').then(function (rows) {
-                    //   ans = "A " + rows.recordset[0].Name
-                    ans = "asasassdasds"
-                        conn.close();                    
-                  })
-               
-    })
     reply(reply_token,ans)  
     // reply(reply_token)
     res.sendStatus(200)
@@ -109,3 +107,5 @@ function reply(reply_token,ans) {
         console.log('status = ' + res.statusCode);
     });
 }
+
+
