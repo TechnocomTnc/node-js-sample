@@ -34,23 +34,19 @@ var dbConfig = {
 
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
-app.post('/webhook', (req, res) => {
+app.get('/webhook', (req, res) => {
     let reply_token = req.body.events[0].replyToken
     let msg = req.body.events[0].message.text
-    // conn.close();  
-    // sql.connect(dbConfig, function (err) {
-    //     // create Request object
-    //     var request = new sql.Request();
-    //     // query to the database and get the records
-    //    request.query('SELECT q_topic FROM Question').then(function (rows) 
-    //               {
-    //                 nnamen = rows.recordset[1].q_topic;
-                    reply(reply_token,msg)
-                    // conn.close();                     
-    //               })
-    // });
-        // ans = msg 
-        // reply(reply_token,ans) 
+    sql.connect(dbConfig, function (err) {
+        // create Request object
+        var request = new sql.Request();
+        // query to the database and get the records
+       request.query('SELECT q_topic FROM Question').then(function (rows) 
+            {
+            nnamen = rows.recordset[0].q_topic;
+            reply(reply_token,nnamen)                   
+            })
+    });
 
     res.sendStatus(200)
 })
