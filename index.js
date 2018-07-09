@@ -3,6 +3,14 @@ const bodyParser = require('body-parser')
 const request = require('request')
 const app = express()
 const port = process.env.PORT || 4000
+
+
+var quest = "ดี";
+var ans;
+
+
+
+
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 app.post('/webhook', (req, res) => {
@@ -18,11 +26,15 @@ function reply(reply_token, msg) {
         'Authorization': 'Bearer {7YR60AJ855Zu1Etxsc7aCdFqhip1o8yAKj7PzLe90ClE9Po0fz5o81BeghtpCki4+zFZ7FrYjjbrFvQw84+Axi+P1zWPnxSCTl/lF5gVTDaDqdC5IHk30qnjo7GQ1hHKizexgGNpBPn/Fwz3slJqkQdB04t89/1O/w1cDnyilFU=}'
     }
     let body = JSON.stringify({
+        if (msg == quest){
+            ans = "ดีครับ";
+        }else {ans = msg;}
         replyToken: reply_token,
         messages: [{
             type: 'text',
-            text: msg
+            text: ans
         }]
+        
     })
     request.post({
         url: 'https://api.line.me/v2/bot/message/reply',
