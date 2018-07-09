@@ -26,7 +26,7 @@ var dbConfig = {
         database: 'LinebotDB',
         port:1433,
         options: {
-            encrypt: false // Use this if you're on Windows Azure
+            encrypt: true // Use this if you're on Windows Azure
         }
 };
 
