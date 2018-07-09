@@ -41,10 +41,10 @@ app.get('/webhook', (req, res) => {
         // create Request object
         var request = new sql.Request();
         // query to the database and get the records
-       request.query('SELECT q_topic FROM Question').then(function (rows) 
+       request.query('SELECT q_topic FROM Question WHERE q_topic= ' + msg).then(function (rows) 
             {
-            nnamen = rows.recordset[0].q_topic;
-            reply(reply_token,nnamen)                   
+                nnamen = rows.recordset[0].q_topic;
+                reply(reply_token,nnamen)                   
             })
     });
 
