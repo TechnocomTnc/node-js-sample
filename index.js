@@ -37,7 +37,7 @@ app.use(bodyParser.json())
 app.post('/webhook', (req, res) => {
     let reply_token = req.body.events[0].replyToken
     let msg = req.body.events[0].message.text
-//     conn.close();  
+    conn.close();  
     sql.connect(dbConfig, function (err) {
         // create Request object
         var request = new sql.Request();
@@ -46,58 +46,15 @@ app.post('/webhook', (req, res) => {
             // ans = recordset.recordset[0].q_topic
             var ansq = msg 
             reply(reply_token,ansq) 
+           
         });
         // conn.close();   
     });
         // ans = msg 
         // reply(reply_token,ans) 
-    // reply(reply_token)
-    res.sendStatus(200)
+    reply(reply_token,msg)
+     res.sendStatus(200)
 })
-
-// function ansdb (req, res){
-//     var conn = new sql.ConnectionPool(dbConfig);
-//     conn.connect().then(function () {
-//                   var req = new sql.Request(conn);
-//                   req.query('SELECT * FROM Customer').then(function (rows) {
-//                       ans = "A " + rows.recordset[0].Name
-//                         reply(reply_token)
-//                         conn.close();                    
-//                   })  
-//     })
-// }
-
-// app.get('/users', function (req, res) {
-//     var conn = new sql.ConnectionPool(dbConfig);
-//     conn.connect().then(function () {
-//                   var req = new sql.Request(conn);
-//                   req.query('SELECT * FROM Customer').then(function (rows) {
-//                         res.send(rows);
-//                           conn.close();                    
-//                   })  
-//     })
-// });
-
-
-
-
-// sql.connect(dbConfig, function (err) {
-//         if (err) console.log(err);
-//         // create Request object
-//         var request = new sql.Request();
-//         let reply_token = req.body.events[0].replyToken
-//         // query to the database and get the records
-//         request.query('SELECT q_topic FROM Question', function (err, recordset) {
-
-//             ans = recordset.recordset[1].q_topic
-//             reply(reply_token,ans)
-//             // if (err) console.log(err)
-//             // ans = "asasas"
-//             // send records as a response
-//             //res.send(recordset);
-            
-//         });
-//     });
 
 
 app.listen(port)
