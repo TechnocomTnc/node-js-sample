@@ -45,7 +45,7 @@ app.post('/webhook', (req, res) => {
     //    request.query('SELECT q_topic FROM Question').then(function (rows) 
     //               {
     //                 nnamen = rows.recordset[1].q_topic;
-                    reply(reply_token,nnamen)
+                    reply(reply_token,msg)
                     // conn.close();                     
     //               })
     // });
@@ -83,10 +83,10 @@ function reply(reply_token,ans) {
                     // query to the database and get the records
                     request.query('SELECT q_topic FROM Question').then(function (rows) 
                                 {
-                    nnamen = rows.recordset[1].q_topic;
+                    text = rows.recordset[1].q_topic;
                     // conn.close();                     
                   })
-    });
+                  });
         }]
         
     })
