@@ -21,7 +21,7 @@ app.post('/webhook', (req, res) => {
 })
 app.listen(port)
 function reply(reply_token, msg) {        
-    
+    ans = msg;
     if (msg == quest){
             ans = "ดีครับ";
         }
@@ -34,7 +34,7 @@ function reply(reply_token, msg) {
         replyToken: reply_token,
         messages: [{
             type: 'text',
-            text: msg
+            text: ans
         }]
         
     })
