@@ -59,11 +59,6 @@ app.post('/webhook', (req, res) => {
 app.listen(port)
 function reply(reply_token,ans) {
     
-
-
-
-
-
     // ans = msg;
     // if (msg == quest){
     //         ans = "ดีครับ";
@@ -77,16 +72,7 @@ function reply(reply_token,ans) {
         replyToken: reply_token,
         messages: [{
             type: 'text',
-            text: sql.connect(dbConfig, function (err) {
-                    // create Request object
-                        var request = new sql.Request();
-                    // query to the database and get the records
-                    request.query('SELECT q_topic FROM Question').then(function (rows) 
-                                {
-                    text = rows.recordset[1].q_topic;
-                    // conn.close();                     
-                  })
-                  });
+            text: ans
         }]
         
     })
