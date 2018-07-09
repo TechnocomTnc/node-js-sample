@@ -26,7 +26,7 @@ var dbConfig = {
         database: 'LinebotDB',
         port:1433,
         options: {
-            encrypt: true // Use this if you're on Windows Azure
+            encrypt: false // Use this if you're on Windows Azure
         }
 };
 
@@ -36,16 +36,16 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 app.post('/webhook', (req, res) => {
     let reply_token = req.body.events[0].replyToken
-    //let msg = req.body.events[0].message.text
+    let msg = req.body.events[0].message.text
     sql.connect(dbConfig, function (err) {
         if (err) console.log(err);
         // create Request object
         var request = new sql.Request();
         // query to the database and get the records
-        request.query('SELECT q_topic FROM Question', function (err, recordset) {
-            ans = recordset.recordset[1].q_topic
+        request.query('SELECT q_topic FROM Question WHERE q_topic ='+msg, function (err, recordset) {
+            ans = recordset.recordset[0].q_topic
             reply(reply_token,ans) 
-//             conn.close();     
+            conn.close();     
         });
     });
 
