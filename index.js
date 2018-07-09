@@ -30,8 +30,6 @@ var dbConfig = {
         }
 };
 
-
-
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 app.get('/webhook', (req, res) => {
@@ -43,12 +41,7 @@ app.get('/webhook', (req, res) => {
 
 
 app.listen(port)
-function reply(reply_token,ans) {
-    
-    // ans = msg;
-    // if (msg == quest){
-    //         ans = "ดีครับ";
-    // }
+function reply(reply_token,msg) {
     let headers = {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer {7YR60AJ855Zu1Etxsc7aCdFqhip1o8yAKj7PzLe90ClE9Po0fz5o81BeghtpCki4+zFZ7FrYjjbrFvQw84+Axi+P1zWPnxSCTl/lF5gVTDaDqdC5IHk30qnjo7GQ1hHKizexgGNpBPn/Fwz3slJqkQdB04t89/1O/w1cDnyilFU=}'
@@ -58,7 +51,7 @@ function reply(reply_token,ans) {
         replyToken: reply_token,
         messages: [{
             type: 'text',
-            text: ans
+            text: msg
         }]
         
     })
