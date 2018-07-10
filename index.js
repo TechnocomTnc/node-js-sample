@@ -43,13 +43,20 @@ function reply(reply_token, msg) {
                     conn.close();  
                 }else{                  
                     for (var i=0;i<rows.rowsAffected;i++){
-                        if(rows.recordset[i].q_topic == msg){   
-                            arrName = '\nTopic : '   + rows.recordset[i].q_Id
-                            break
+                        if(rows.recordset[i].q_topic == msg){
+                            QID = rows.recordset[i].q_Id
+                            break                          
                         }else arrName = '\nNOT FOUND'
                     }
-    
-    
+                    req.query('SELECT a_topic FROM Answer WHERE a_topic ='+ QID, function(err, row) {
+                        if (err) {
+                            throw err;
+                            console.error(err);
+                            conn.close();  
+                        }else{
+                            arrName = row.recordset[0].a_topic 
+                        }
+                    }
                     let headers = {
                         'Content-Type': 'application/json',
                         'Authorization': 'Bearer {7YR60AJ855Zu1Etxsc7aCdFqhip1o8yAKj7PzLe90ClE9Po0fz5o81BeghtpCki4+zFZ7FrYjjbrFvQw84+Axi+P1zWPnxSCTl/lF5gVTDaDqdC5IHk30qnjo7GQ1hHKizexgGNpBPn/Fwz3slJqkQdB04t89/1O/w1cDnyilFU=}'
