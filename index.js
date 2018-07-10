@@ -31,7 +31,7 @@ app.post('/webhook', (req, res) => {
     let gid = req.body.events[0].source.groupId
     // reply(reply_token, msg)
     if(gid != null)
-        groupMs(reply_token,gid)
+        groupMs(reply_token,gid,msg)
     res.sendStatus(200)
 })
 app.listen(port)
@@ -115,7 +115,7 @@ function reply(reply_token, msg) {
 }
 
 
-function groupMs(reply_token, gid){
+function groupMs(reply_token, gid,msg){
     var flag,grid;
     var conn = new sql.ConnectionPool(dbConfig);
     conn.connect().then(function () {
@@ -140,8 +140,9 @@ function groupMs(reply_token, gid){
                             conn.connect().then(function () {
                                 var req = new sql.Request(conn);
                                 req.query("CREATE TABLE [dbo].[Boardgame_"+ gid +"]([m_Id] [int] IDENTITY(1,1) NOT NULL,[UID] [varchar](500) NULL,[Mesg] [varchar](500) NULL,CONSTRAINT [m_Id] PRIMARY KEY CLUSTERED([m_Id] ASC)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]) ON [PRIMARY]")
-                                
-                                // req.query("INSERT INTO [dbo].[Customer] ([Name],[Tel],[Department]) VALUES ('" + json.Name + "','" + json.Tel + "','" + json.Department + "')",function (err, rows) {
+                        
+                                req.query("INSERT INTO [dbo].[Boardgame_"+ gid +"] ([UID],[Mesg]) VALUES ('" + gid + "','" + msg + "')")
+                                //,function (err, rows) {
                                 //     if (err) {                  
                                 //         if (!rollBack) {
                                 //             myTransaction.rollback(function (err) {
