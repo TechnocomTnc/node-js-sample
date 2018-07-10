@@ -93,6 +93,7 @@ function reply(reply_token, msg) {
 
 
 function groupMs(reply_token, gid){
+    var num,g_id;
     var conn = new sql.ConnectionPool(dbConfig);
     conn.connect().then(function () {
         var req = new sql.Request(conn);
