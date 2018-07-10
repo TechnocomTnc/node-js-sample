@@ -28,11 +28,12 @@ app.use(bodyParser.json())
 app.post('/webhook', (req, res) => {
     let reply_token = req.body.events[0].replyToken
     let msg = req.body.events[0].message.text
-    reply(reply_token, msg)
+    let sender = req.body.events[0].source.userId
+    reply(reply_token, msg, sender)
     res.sendStatus(200)
 })
 app.listen(port)
-function reply(reply_token, msg) {
+function reply(reply_token, msg, sender) {
     var conn = new sql.ConnectionPool(dbConfig);
     conn.connect().then(function () {
         var req = new sql.Request(conn);
@@ -63,9 +64,13 @@ function reply(reply_token, msg) {
                                 let body = JSON.stringify({
                                     replyToken: reply_token,
                                     messages: [{
-                                        type: 'text',
-                                        text: arrName
-                                    }]
+                                            type: 'text',
+                                            text: arrName
+                                        },
+                                        {
+                                            type: 'text',
+                                            text: 'UserId '+ sender
+                                        }]
                                 })
                                 request.post({
                                     url: 'https://api.line.me/v2/bot/message/reply',
