@@ -37,18 +37,13 @@ function reply(reply_token, msg, sender) {
     var conn = new sql.ConnectionPool(dbConfig);
     conn.connect().then(function () {
         var req = new sql.Request(conn);
-            req.query('SELECT * FROM Question', function(err, rows) {
+            req.query('SELECT * FROM Question WHERE q_topic = msg', function(err, rows) {
                 if (err) {
                     throw err;
                     console.error(err);
                     conn.close();  
                 }else{                  
-                        for (var i=0;i<rows.rowsAffected;i++){
-                            if(rows.recordset[i].q_topic == msg){
-                                QID = rows.recordset[i].q_Id
-                                break                          
-                            }else {arrName = '\nNOT FOUND'}
-                        }
+                        QID = rows.recordset[i].q_Id
                         req.query('SELECT * FROM Answer WHERE a_Id ='+ QID, function(err, row) {
                             if (err) {
                                 throw err;
