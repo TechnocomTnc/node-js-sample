@@ -36,7 +36,7 @@ function reply(reply_token, msg) {
     var conn = new sql.ConnectionPool(dbConfig);
     conn.connect().then(function () {
         var req = new sql.Request(conn);
-            textz = 'Hi';
+            textz = '1';
             req.query('SELECT * FROM Question WHERE q_topic ='+ textz, function(err, rows) {
                 if (err) {
                     throw err;
