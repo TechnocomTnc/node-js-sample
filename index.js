@@ -39,13 +39,13 @@ function reply(reply_token, msg) {
         req.query('SELECT q_Id FROM Question WHERE q_topic = '+ msg ,function(row) {
             var QID = row.recordset[0].q_Id
             
-            req.query('SELECT a_topic FROM Answer', function(err, rows) {
-                if (err) {
-                    throw err;
-                    console.error(err);
-                    conn.close();  
-                }else{                     
-                    arrName = '\nTopic : '   + rows.recordset[0].q_topic
+            // req.query('SELECT a_topic FROM Answer', function(err, rows) {
+            //     if (err) {
+            //         throw err;
+            //         console.error(err);
+            //         conn.close();  
+            //     }else{                     
+            //         arrName = '\nTopic : '   + rows.recordset[0].q_topic
                     
     
     
@@ -68,7 +68,7 @@ function reply(reply_token, msg) {
                         console.log('status = ' + res.statusCode);
                     });
                     conn.close();  
-                }
+                // }
             });
 
         }) 
