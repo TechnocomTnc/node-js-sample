@@ -135,13 +135,15 @@ function groupMs(reply_token, gid,msg){
                     }
 
                     if(flag == 0){
-                        var Ngroup = 'Group' + gid
+                        var Ngroup = 'Group_' + gid
                         var conn = new sql.ConnectionPool(dbConfig);
                             conn.connect().then(function () {
                                 var req = new sql.Request(conn);
-                                req.query("CREATE TABLE [dbo].[Boardgame_"+ gid +"]([m_Id] [int] IDENTITY(1,1) NOT NULL,[UID] [varchar](500) NULL,[Mesg] [varchar](500) NULL,CONSTRAINT [m_Id] PRIMARY KEY CLUSTERED([m_Id] ASC)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]) ON [PRIMARY]")
+                                req.query("INSERT INTO [dbo].[groupName] ([groupID],[Gname]) VALUES ('" + gid + "','" + Ngroup + "')")
+                                
+                                req.query("CREATE TABLE [dbo].["+ Ngroup +"]([m_Id] [int] IDENTITY(1,1) NOT NULL,[UID] [varchar](500) NULL,[Mesg] [varchar](500) NULL,CONSTRAINT [m_Id] PRIMARY KEY CLUSTERED([m_Id] ASC)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]) ON [PRIMARY]")
                         
-                                req.query("INSERT INTO [dbo].[Boardgame_"+ gid +"] ([UID],[Mesg]) VALUES ('" + gid + "','" + msg + "')")
+                                req.query("INSERT INTO [dbo].["+ Ngroup +"] ([UID],[Mesg]) VALUES ('" + gid + "','" + msg + "')")
                                 //,function (err, rows) {
                                 //     if (err) {                  
                                 //         if (!rollBack) {
@@ -200,19 +202,18 @@ function groupMs(reply_token, gid,msg){
                         // }, (err, res, body) => {
                         //     console.log('status = ' + res.statusCode);
                         // });
-                    }else{
-
+                    }
+                    if(flag == 1){
+                        var Ngroup = 'Group_' + gid
                         var conn = new sql.ConnectionPool(dbConfig);
                         conn.connect().then(function () {
                             var req = new sql.Request(conn);
                             //req.query("CREATE TABLE [dbo].[Boardgame_"+ gid +"]([m_Id] [int] IDENTITY(1,1) NOT NULL,[UID] [varchar](500) NULL,[Mesg] [varchar](500) NULL,CONSTRAINT [m_Id] PRIMARY KEY CLUSTERED([m_Id] ASC)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]) ON [PRIMARY]")
-                    
-                            req.query("INSERT INTO [dbo].[Boardgame_"+ gid +"] ([UID],[Mesg]) VALUES ('" + gid + "','" + msg + "')")
-                        
-                    }
-                    
+                            req.query("INSERT INTO [dbo].["+ Ngroup +"] ([UID],[Mesg]) VALUES ('" + gid + "','" + msg + "')")
 
+                    })   
                 }
+            }
             })
         })
 
