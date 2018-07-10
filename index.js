@@ -45,6 +45,7 @@ function reply(reply_token, msg) {
                     for (var i=0;i<rows.rowsAffected;i++){
                         if(rows.recordset[i].q_topic == msg){   
                             arrName = '\nTopic : '   + rows.recordset[i].q_Id
+                            break
                         }else arrName = '\nNOT FOUND'
                     }
     
