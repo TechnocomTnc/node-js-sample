@@ -36,15 +36,17 @@ function reply(reply_token, msg) {
     var conn = new sql.ConnectionPool(dbConfig);
     conn.connect().then(function () {
         var req = new sql.Request(conn);
-            textz = '1';
-            req.query('SELECT * FROM Question WHERE q_topic ='+ ''+msg, function(err, rows) {
+            req.query('SELECT * FROM Question', function(err, rows) {
                 if (err) {
                     throw err;
                     console.error(err);
                     conn.close();  
-                }else{                     
-                    arrName = '\nTopic : '   + rows.recordset[0].q_Id
-                    
+                }else{                  
+                    for (var i=0;i<rows.rowsAffected;i++){
+                        if(rows.recordset[i].q_topic == msg){   
+                            arrName = '\nTopic : '   + rows.recordset[i].q_Id
+                        }
+                    }
     
     
                     let headers = {
