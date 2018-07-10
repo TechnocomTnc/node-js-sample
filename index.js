@@ -6,7 +6,7 @@ const port = process.env.PORT || 4000
 var quest = "ดี"
 var ans = "ครับ"
 
-var app2 = require('express')();
+
 var sql = require('mssql');
 var sqlInstance = require("mssql");
 var nodemailer = require('nodemailer');
@@ -33,22 +33,49 @@ app.post('/webhook', (req, res) => {
 })
 app.listen(port)
 function reply(reply_token, msg) {
-    let headers = {
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer {7YR60AJ855Zu1Etxsc7aCdFqhip1o8yAKj7PzLe90ClE9Po0fz5o81BeghtpCki4+zFZ7FrYjjbrFvQw84+Axi+P1zWPnxSCTl/lF5gVTDaDqdC5IHk30qnjo7GQ1hHKizexgGNpBPn/Fwz3slJqkQdB04t89/1O/w1cDnyilFU=}'
-    }
-    let body = JSON.stringify({
-        replyToken: reply_token,
-        messages: [{
-            type: 'text',
-            text: msg
-        }]
+
+    var conn = new sql.ConnectionPool(dbConfig);
+    conn.connect().then(function () {
+        var req = new sql.Request(conn);
+        req.query('SELECT * FROM Question', function(err, rows) {
+            if (err) {
+                throw err;
+                console.error(err);
+                conn.close();  
+            }else{                     
+                arrName = '\nTopic : '   + rows.recordset[0].q_topic
+                
+                let headers = {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer {7YR60AJ855Zu1Etxsc7aCdFqhip1o8yAKj7PzLe90ClE9Po0fz5o81BeghtpCki4+zFZ7FrYjjbrFvQw84+Axi+P1zWPnxSCTl/lF5gVTDaDqdC5IHk30qnjo7GQ1hHKizexgGNpBPn/Fwz3slJqkQdB04t89/1O/w1cDnyilFU=}'
+                }
+                let body = JSON.stringify({
+                    replyToken: reply_token,
+                    messages: [{
+                        type: 'text',
+                        text: arrName
+                    }]
+                })
+                request.post({
+                    url: 'https://api.line.me/v2/bot/message/reply',
+                    headers: headers,
+                    body: body
+                }, (err, res, body) => {
+                    console.log('status = ' + res.statusCode);
+                });
+
+                
+
+
+
+
+
+
+                res.send(arrName);
+                conn.close();  
+            }
+        });
     })
-    request.post({
-        url: 'https://api.line.me/v2/bot/message/reply',
-        headers: headers,
-        body: body
-    }, (err, res, body) => {
-        console.log('status = ' + res.statusCode);
-    });
+
+
 }
