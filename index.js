@@ -163,6 +163,7 @@ function groupMs(reply_token, gid,msg){
                             console.log('status = ' + res.statusCode);
                         });
                         flag = 1
+                        conn.close(); 
                     }
                     if(flag == 1){
                         var Ngroup = 'Group_' + gid
@@ -190,13 +191,8 @@ function groupMs(reply_token, gid,msg){
                             }, (err, res, body) => {
                                 console.log('status = ' + res.statusCode);
                             });
-
-
-
-
-
-
-                    })   
+                    }) 
+                    conn.close();   
                 }
             }
             })
