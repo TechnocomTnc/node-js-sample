@@ -43,7 +43,7 @@ function reply(reply_token, msg) {
                     console.error(err);
                     conn.close();  
                 }else{                     
-                    arrName = '\nTopic : '   + rows.recordset[0].q_topic
+                    arrName = '\nTopic : '   + rows.recordset[0].q_Id
                     
     
     
