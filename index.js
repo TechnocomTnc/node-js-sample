@@ -140,68 +140,29 @@ function groupMs(reply_token, gid,msg){
                             conn.connect().then(function () {
                                 var req = new sql.Request(conn);
                                 req.query("INSERT INTO [dbo].[groupName] ([groupID],[Gname]) VALUES ('" + gid + "','" + Ngroup + "')")
-                                
                                 req.query("CREATE TABLE [dbo].["+ Ngroup +"]([m_Id] [int] IDENTITY(1,1) NOT NULL,[UID] [varchar](500) NULL,[Mesg] [varchar](500) NULL,CONSTRAINT [m_Id] PRIMARY KEY CLUSTERED([m_Id] ASC)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]) ON [PRIMARY]")
-                        
                                 req.query("INSERT INTO [dbo].["+ Ngroup +"] ([UID],[Mesg]) VALUES ('" + gid + "','" + msg + "')")
-                                //,function (err, rows) {
-                                //     if (err) {                  
-                                //         if (!rollBack) {
-                                //             myTransaction.rollback(function (err) {
-                                //                 //console.dir(err);
-                                //                 res.send(err);
-                                //             });
-                                //         }
-                                //     }else{
-                                //         myTransaction.commit().then(function (recordset) {
-                                //             //console.dir('Data is inserted successfully!');
-                                //             res.send('Data is inserted successfully!');
-                                //         }).catch(function (err) {
-                                //             //console.dir('Error in transaction commit ' + err);
-                                //             res.send('Error in transaction commit ' + err);
-                                //         });
-                                //     }
-                                // });
-                            // });
-
-                            flag = 1
+                                
                         });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                        // let headers = {
-                        //     'Content-Type': 'application/json',
-                        //     'Authorization': 'Bearer {7YR60AJ855Zu1Etxsc7aCdFqhip1o8yAKj7PzLe90ClE9Po0fz5o81BeghtpCki4+zFZ7FrYjjbrFvQw84+Axi+P1zWPnxSCTl/lF5gVTDaDqdC5IHk30qnjo7GQ1hHKizexgGNpBPn/Fwz3slJqkQdB04t89/1O/w1cDnyilFU=}'
-                        // }
-                        // let body = JSON.stringify({
-                        //     replyToken: reply_token,
-                        //     messages: [{
-                        //             type: 'text',
-                        //             text: 'Group = ' + grid
-                        //         }]
-                        // })
-                        // request.post({
-                        //     url: 'https://api.line.me/v2/bot/message/reply',
-                        //     headers: headers,
-                        //     body: body
-                        // }, (err, res, body) => {
-                        //     console.log('status = ' + res.statusCode);
-                        // });
+                        let headers = {
+                            'Content-Type': 'application/json',
+                            'Authorization': 'Bearer {7YR60AJ855Zu1Etxsc7aCdFqhip1o8yAKj7PzLe90ClE9Po0fz5o81BeghtpCki4+zFZ7FrYjjbrFvQw84+Axi+P1zWPnxSCTl/lF5gVTDaDqdC5IHk30qnjo7GQ1hHKizexgGNpBPn/Fwz3slJqkQdB04t89/1O/w1cDnyilFU=}'
+                        }
+                        let body = JSON.stringify({
+                            replyToken: reply_token,
+                            messages: [{
+                                    type: 'text',
+                                    text: 'Group = ' + gid
+                                }]
+                        })
+                        request.post({
+                            url: 'https://api.line.me/v2/bot/message/reply',
+                            headers: headers,
+                            body: body
+                        }, (err, res, body) => {
+                            console.log('status = ' + res.statusCode);
+                        });
+                        flag = 1
                     }
                     if(flag == 1){
                         var Ngroup = 'Group_' + gid
