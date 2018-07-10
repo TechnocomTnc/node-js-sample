@@ -135,11 +135,12 @@ function groupMs(reply_token, gid){
                     }
 
                     if(flag == 0){
-                        // var json = req.body;
+                        var Ngroup = 'Group' + gid
                         var conn = new sql.ConnectionPool(dbConfig);
                             conn.connect().then(function () {
                                 var req = new sql.Request(conn);
-                                req.query("CREATE TABLE [dbo].[TripleJune]([m_Id] [int] IDENTITY(1,1) NOT NULL,[UID] [varchar](500) NULL,[Mesg] [varchar](500) NULL,CONSTRAINT [m_Id] PRIMARY KEY CLUSTERED([m_Id] ASC)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]) ON [PRIMARY]")
+                                req.query("CREATE TABLE [dbo].["+ Ngroup +"]([m_Id] [int] IDENTITY(1,1) NOT NULL,[UID] [varchar](500) NULL,[Mesg] [varchar](500) NULL,CONSTRAINT [m_Id] PRIMARY KEY CLUSTERED([m_Id] ASC)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]) ON [PRIMARY]")
+                                
                                 // req.query("INSERT INTO [dbo].[Customer] ([Name],[Tel],[Department]) VALUES ('" + json.Name + "','" + json.Tel + "','" + json.Department + "')",function (err, rows) {
                                 //     if (err) {                  
                                 //         if (!rollBack) {
