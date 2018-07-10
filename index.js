@@ -93,7 +93,7 @@ function reply(reply_token, msg) {
 
 
 function groupMs(reply_token, gid){
-    var num,g_id;
+    var num=3,grid;
     var conn = new sql.ConnectionPool(dbConfig);
     conn.connect().then(function () {
         var req = new sql.Request(conn);
@@ -105,13 +105,11 @@ function groupMs(reply_token, gid){
                 }else{
                     for(var i=0;i<rows.rowsAffected;i++){
                         if(rows.recordset[i].groupID == gid){
-                            g_id = rows.recordset[i].g_id
+                            // grid = rows.recordset[i].g_id
                             num=1;
                             break
                         }else num=0;
                     }
-
-
 
                         let headers = {
                             'Content-Type': 'application/json',
