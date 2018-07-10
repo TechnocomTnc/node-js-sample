@@ -36,38 +36,43 @@ function reply(reply_token, msg) {
     var conn = new sql.ConnectionPool(dbConfig);
     conn.connect().then(function () {
         var req = new sql.Request(conn);
-        var QID = req.query('SELECT q_Id FROM Question WHERE q_topic = '+ msg ) 
-        req.query('SELECT a_topic FROM Answer', function(err, rows) {
-            if (err) {
-                throw err;
-                console.error(err);
-                conn.close();  
-            }else{                     
-                arrName = '\nTopic : '   + rows.recordset[0].q_topic
-                
-
-
-                let headers = {
-                    'Content-Type': 'application/json',
-                    'Authorization': 'Bearer {7YR60AJ855Zu1Etxsc7aCdFqhip1o8yAKj7PzLe90ClE9Po0fz5o81BeghtpCki4+zFZ7FrYjjbrFvQw84+Axi+P1zWPnxSCTl/lF5gVTDaDqdC5IHk30qnjo7GQ1hHKizexgGNpBPn/Fwz3slJqkQdB04t89/1O/w1cDnyilFU=}'
+        req.query('SELECT q_Id FROM Question WHERE q_topic = '+ msg ,function(row) {
+            var QID = rows.recordset[0].q_Id
+            
+            req.query('SELECT a_topic FROM Answer', function(err, rows) {
+                if (err) {
+                    throw err;
+                    console.error(err);
+                    conn.close();  
+                }else{                     
+                    arrName = '\nTopic : '   + rows.recordset[0].q_topic
+                    
+    
+    
+                    let headers = {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer {7YR60AJ855Zu1Etxsc7aCdFqhip1o8yAKj7PzLe90ClE9Po0fz5o81BeghtpCki4+zFZ7FrYjjbrFvQw84+Axi+P1zWPnxSCTl/lF5gVTDaDqdC5IHk30qnjo7GQ1hHKizexgGNpBPn/Fwz3slJqkQdB04t89/1O/w1cDnyilFU=}'
+                    }
+                    let body = JSON.stringify({
+                        replyToken: reply_token,
+                        messages: [{
+                            type: 'text',
+                            text: 'Q '+ QID
+                        }]
+                    })
+                    request.post({
+                        url: 'https://api.line.me/v2/bot/message/reply',
+                        headers: headers,
+                        body: body
+                    }, (err, res, body) => {
+                        console.log('status = ' + res.statusCode);
+                    });
+                    conn.close();  
                 }
-                let body = JSON.stringify({
-                    replyToken: reply_token,
-                    messages: [{
-                        type: 'text',
-                        text: 'Q '+ QID
-                    }]
-                })
-                request.post({
-                    url: 'https://api.line.me/v2/bot/message/reply',
-                    headers: headers,
-                    body: body
-                }, (err, res, body) => {
-                    console.log('status = ' + res.statusCode);
-                });
-                conn.close();  
-            }
-        });
+            });
+
+        }) 
+
     })
 
 }
