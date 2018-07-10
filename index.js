@@ -37,50 +37,56 @@ function reply(reply_token, msg, sender) {
     var conn = new sql.ConnectionPool(dbConfig);
     conn.connect().then(function () {
         var req = new sql.Request(conn);
-            req.query('SELECT * FROM Question', function(rows) {            
-                for (var i=0;i<rows.rowsAffected;i++){
-                    if(rows.recordset[i].q_topic == msg){
-                        QID = rows.recordset[i].q_Id
-                        break                          
-                    }else {
-                        arrName = '\nNOT FOUND'
-                        QID = null
-                    }
-                }
-                req.query('SELECT * FROM Answer WHERE a_Id ='+ QID, function(err, row) {
-                    if (err) {
-                        throw err;
-                        console.error(err);
-                        conn.close();  
-                    }else{
-                        arrName = row.recordset[0].a_topic 
+            req.query('SELECT * FROM Question WHERE q_topic = msg', function(rows) {
+                if (err) {
+                    throw err;
+                    console.error(err);
+                    conn.close();  
+                }else{                  
+                        // for (var i=0;i<rows.rowsAffected;i++){
+                            // if(rows.recordset[0].q_topic == msg){
+                                QID = rows.recordset[0].q_Id
+                                // break                          
+                            // }else {
+                                // arrName = '\nNOT FOUND'
+                                // QID = null
+                            // }
+                        // }
+                        req.query('SELECT * FROM Answer WHERE a_Id ='+ QID, function(err, row) {
+                            if (err) {
+                                throw err;
+                                console.error(err);
+                                conn.close();  
+                            }else{
+                                arrName = row.recordset[0].a_topic 
 
-                        let headers = {
-                            'Content-Type': 'application/json',
-                            'Authorization': 'Bearer {7YR60AJ855Zu1Etxsc7aCdFqhip1o8yAKj7PzLe90ClE9Po0fz5o81BeghtpCki4+zFZ7FrYjjbrFvQw84+Axi+P1zWPnxSCTl/lF5gVTDaDqdC5IHk30qnjo7GQ1hHKizexgGNpBPn/Fwz3slJqkQdB04t89/1O/w1cDnyilFU=}'
-                        }
-                        let body = JSON.stringify({
-                            replyToken: reply_token,
-                            messages: [{
-                                    type: 'text',
-                                    text: arrName
-                                },
-                                {
-                                    type: 'text',
-                                    text: 'UserId '+ sender
-                                }]
+                                let headers = {
+                                    'Content-Type': 'application/json',
+                                    'Authorization': 'Bearer {7YR60AJ855Zu1Etxsc7aCdFqhip1o8yAKj7PzLe90ClE9Po0fz5o81BeghtpCki4+zFZ7FrYjjbrFvQw84+Axi+P1zWPnxSCTl/lF5gVTDaDqdC5IHk30qnjo7GQ1hHKizexgGNpBPn/Fwz3slJqkQdB04t89/1O/w1cDnyilFU=}'
+                                }
+                                let body = JSON.stringify({
+                                    replyToken: reply_token,
+                                    messages: [{
+                                            type: 'text',
+                                            text: arrName
+                                        },
+                                        {
+                                            type: 'text',
+                                            text: 'UserId '+ sender
+                                        }]
+                                })
+                                request.post({
+                                    url: 'https://api.line.me/v2/bot/message/reply',
+                                    headers: headers,
+                                    body: body
+                                }, (err, res, body) => {
+                                    console.log('status = ' + res.statusCode);
+                                });
+                                conn.close(); 
+                            }
                         })
-                        request.post({
-                            url: 'https://api.line.me/v2/bot/message/reply',
-                            headers: headers,
-                            body: body
-                        }, (err, res, body) => {
-                            console.log('status = ' + res.statusCode);
-                        });
-                        conn.close(); 
-                    }
-                })
                     
+                }
             });
 
 
