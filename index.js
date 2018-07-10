@@ -43,7 +43,7 @@ function reply(reply_token, msg, sender) {
                     console.error(err);
                     conn.close();  
                 }else{                  
-                        QID = rows.recordset[i].q_Id
+                        QID = rows.recordset[0].q_Id
                         req.query('SELECT * FROM Answer WHERE a_Id ='+ QID, function(err, row) {
                             if (err) {
                                 throw err;
