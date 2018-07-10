@@ -128,7 +128,7 @@ function groupMs(reply_token, gid){
                 }else{
                     for(var i=0;i<rows.rowsAffected;i++){
                         if(rows.recordset[i].groupID == gid){
-                            grid = rows.recordset[i].g_id
+                            grid = rows.recordset[i].g_Id
                             num= 1
                             break
                         }else num=0
