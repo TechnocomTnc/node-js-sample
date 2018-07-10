@@ -37,7 +37,7 @@ function reply(reply_token, msg) {
     conn.connect().then(function () {
         var req = new sql.Request(conn);
             textz = ''+ msg
-            req.query('SELECT * FROM Question WHERE q_topic = ' + ''+ msg +'', function(err, rows) {
+            req.query('SELECT * FROM Question WHERE q_topic = ' + 'Hi', function(err, rows) {
                 if (err) {
                     throw err;
                     console.error(err);
