@@ -42,40 +42,42 @@ function reply(reply_token, msg) {
                     console.error(err);
                     conn.close();  
                 }else{                  
-                    for (var i=0;i<rows.rowsAffected;i++){
-                        if(rows.recordset[i].q_topic == msg){
-                            QID = rows.recordset[i].q_Id
-                            break                          
-                        }else arrName = '\nNOT FOUND'
-                    }
-                    req.query('SELECT a_topic FROM Answer WHERE a_topic ='+ QID, function(err, row) {
-                        if (err) {
-                            throw err;
-                            console.error(err);
-                            conn.close();  
-                        }else{
-                            arrName = row.recordset[0].a_topic 
+                        for (var i=0;i<rows.rowsAffected;i++){
+                            if(rows.recordset[i].q_topic == msg){
+                                QID = rows.recordset[i].q_Id
+                                break                          
+                            }else {arrName = '\nNOT FOUND'}
                         }
-                    }
-                    let headers = {
-                        'Content-Type': 'application/json',
-                        'Authorization': 'Bearer {7YR60AJ855Zu1Etxsc7aCdFqhip1o8yAKj7PzLe90ClE9Po0fz5o81BeghtpCki4+zFZ7FrYjjbrFvQw84+Axi+P1zWPnxSCTl/lF5gVTDaDqdC5IHk30qnjo7GQ1hHKizexgGNpBPn/Fwz3slJqkQdB04t89/1O/w1cDnyilFU=}'
-                    }
-                    let body = JSON.stringify({
-                        replyToken: reply_token,
-                        messages: [{
-                            type: 'text',
-                            text: arrName
-                        }]
-                    })
-                    request.post({
-                        url: 'https://api.line.me/v2/bot/message/reply',
-                        headers: headers,
-                        body: body
-                    }, (err, res, body) => {
-                        console.log('status = ' + res.statusCode);
-                    });
-                    conn.close();  
+                        req.query('SELECT a_topic FROM Answer WHERE a_topic ='+ QID, function(err, row) {
+                            if (err) {
+                                throw err;
+                                console.error(err);
+                                conn.close();  
+                            }else{
+                                arrName = row.recordset[0].a_topic 
+
+                                let headers = {
+                                    'Content-Type': 'application/json',
+                                    'Authorization': 'Bearer {7YR60AJ855Zu1Etxsc7aCdFqhip1o8yAKj7PzLe90ClE9Po0fz5o81BeghtpCki4+zFZ7FrYjjbrFvQw84+Axi+P1zWPnxSCTl/lF5gVTDaDqdC5IHk30qnjo7GQ1hHKizexgGNpBPn/Fwz3slJqkQdB04t89/1O/w1cDnyilFU=}'
+                                }
+                                let body = JSON.stringify({
+                                    replyToken: reply_token,
+                                    messages: [{
+                                        type: 'text',
+                                        text: arrName
+                                    }]
+                                })
+                                request.post({
+                                    url: 'https://api.line.me/v2/bot/message/reply',
+                                    headers: headers,
+                                    body: body
+                                }, (err, res, body) => {
+                                    console.log('status = ' + res.statusCode);
+                                });
+                                conn.close(); 
+                            }
+                        })
+                    
                 }
             });
 
