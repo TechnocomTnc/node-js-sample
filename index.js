@@ -31,7 +31,7 @@ app.post('/webhook', (req, res) => {
     let gid = req.body.events[0].source.groupId
     //reply(reply_token, msg)
     if(gid != null)
-        groupMs(gid)
+        groupMs(reply_token,gid)
     res.sendStatus(200)
 })
 app.listen(port)
@@ -92,7 +92,7 @@ function reply(reply_token, msg) {
 }
 
 
-function groupMs(gid){
+function groupMs(reply_token, gid){
     var conn = new sql.ConnectionPool(dbConfig);
     conn.connect().then(function () {
         var req = new sql.Request(conn);
