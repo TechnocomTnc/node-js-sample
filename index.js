@@ -50,7 +50,7 @@ function reply(reply_token, msg) {
                                 QID = rows.recordset[i].q_Id
                                 break                          
                             }else {
-                                arrName = 'num = '+rows.rowsAffected
+                                arrName = 'num = '//+ rows.rowsAffected
                                 QID = null
                             }
                         }
