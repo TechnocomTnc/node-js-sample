@@ -45,15 +45,15 @@ function reply(reply_token, msg) {
                     console.error(err);
                     conn.close();  
                 }else{                  
-                        for (var i=0;i<rows.rowsAffected;i++){
-                            if(rows.recordset[i].q_topic == msg){
-                                QID = rows.recordset[i].q_Id
-                                break                          
-                            }else {
+                        // for (var i=0;i<rows.rowsAffected;i++){
+                        //     if(rows.recordset[i].q_topic == msg){
+                        //         QID = rows.recordset[i].q_Id
+                        //         break                          
+                        //     }else {
                                 arrName = 'num = '+ rows.rowsAffected
                                 QID = null
-                            }
-                        }
+                        //     }
+                        // }
                         if(QID!=null){
                             req.query('SELECT * FROM Answer WHERE a_Id ='+ QID, function(err, row) {
                                 if (err) {
