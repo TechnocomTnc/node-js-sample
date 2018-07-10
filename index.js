@@ -28,12 +28,14 @@ app.use(bodyParser.json())
 app.post('/webhook', (req, res) => {
     let reply_token = req.body.events[0].replyToken
     let msg = req.body.events[0].message.text
-    let sender = req.body.events[0].source.groupId
-    reply(reply_token, msg, sender)
+    let gid = req.body.events[0].source.groupId
+    //reply(reply_token, msg)
+    if(gid != null)
+        groupMs(gid)
     res.sendStatus(200)
 })
 app.listen(port)
-function reply(reply_token, msg, sender) {
+function reply(reply_token, msg) {
     var conn = new sql.ConnectionPool(dbConfig);
     conn.connect().then(function () {
         var req = new sql.Request(conn);
@@ -59,8 +61,6 @@ function reply(reply_token, msg, sender) {
                                 conn.close();  
                             }else{
                                 arrName = row.recordset[0].a_topic 
-                                if (sender == null )
-                                    sender = '0000'
                                 let headers = {
                                     'Content-Type': 'application/json',
                                     'Authorization': 'Bearer {7YR60AJ855Zu1Etxsc7aCdFqhip1o8yAKj7PzLe90ClE9Po0fz5o81BeghtpCki4+zFZ7FrYjjbrFvQw84+Axi+P1zWPnxSCTl/lF5gVTDaDqdC5IHk30qnjo7GQ1hHKizexgGNpBPn/Fwz3slJqkQdB04t89/1O/w1cDnyilFU=}'
@@ -70,10 +70,6 @@ function reply(reply_token, msg, sender) {
                                     messages: [{
                                             type: 'text',
                                             text: arrName
-                                        },
-                                        {
-                                            type: 'text',
-                                            text: 'UserId '+ sender
                                         }]
                                 })
                                 request.post({
@@ -92,5 +88,44 @@ function reply(reply_token, msg, sender) {
 
 
     })
+
+}
+
+
+function groupMs(gid){
+    var conn = new sql.ConnectionPool(dbConfig);
+    conn.connect().then(function () {
+        var req = new sql.Request(conn);
+            req.query('SELECT * FROM groupName', function(err, rows) {
+                if (err) {
+                    throw err;
+                    console.error(err);
+                    conn.close();  
+                }else{
+                    if(rows.rowsAffected==0){
+                        let headers = {
+                            'Content-Type': 'application/json',
+                            'Authorization': 'Bearer {7YR60AJ855Zu1Etxsc7aCdFqhip1o8yAKj7PzLe90ClE9Po0fz5o81BeghtpCki4+zFZ7FrYjjbrFvQw84+Axi+P1zWPnxSCTl/lF5gVTDaDqdC5IHk30qnjo7GQ1hHKizexgGNpBPn/Fwz3slJqkQdB04t89/1O/w1cDnyilFU=}'
+                        }
+                        let body = JSON.stringify({
+                            replyToken: reply_token,
+                            messages: [{
+                                    type: 'text',
+                                    text: gid
+                                }]
+                        })
+                        request.post({
+                            url: 'https://api.line.me/v2/bot/message/reply',
+                            headers: headers,
+                            body: body
+                        }, (err, res, body) => {
+                            console.log('status = ' + res.statusCode);
+                        });
+                    }
+
+                }
+            })
+        })
+
 
 }
