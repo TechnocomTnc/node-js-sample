@@ -34,26 +34,26 @@ app.post('/webhook', (req, res) => {
 app.listen(port)
 function reply(reply_token, msg) {
 
-if(msg != '1'){
-    let headers = {
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer {7YR60AJ855Zu1Etxsc7aCdFqhip1o8yAKj7PzLe90ClE9Po0fz5o81BeghtpCki4+zFZ7FrYjjbrFvQw84+Axi+P1zWPnxSCTl/lF5gVTDaDqdC5IHk30qnjo7GQ1hHKizexgGNpBPn/Fwz3slJqkQdB04t89/1O/w1cDnyilFU=}'
-    }
-    let body = JSON.stringify({
-        replyToken: reply_token,
-        messages: [{
-            type: 'text',
-            text: msg
-        }]
-    })
-    request.post({
-        url: 'https://api.line.me/v2/bot/message/reply',
-        headers: headers,
-        body: body
-    }, (err, res, body) => {
-        console.log('status = ' + res.statusCode);
-    });
-}else{
+// if(msg != '1'){
+//     let headers = {
+//         'Content-Type': 'application/json',
+//         'Authorization': 'Bearer {7YR60AJ855Zu1Etxsc7aCdFqhip1o8yAKj7PzLe90ClE9Po0fz5o81BeghtpCki4+zFZ7FrYjjbrFvQw84+Axi+P1zWPnxSCTl/lF5gVTDaDqdC5IHk30qnjo7GQ1hHKizexgGNpBPn/Fwz3slJqkQdB04t89/1O/w1cDnyilFU=}'
+//     }
+//     let body = JSON.stringify({
+//         replyToken: reply_token,
+//         messages: [{
+//             type: 'text',
+//             text: msg
+//         }]
+//     })
+//     request.post({
+//         url: 'https://api.line.me/v2/bot/message/reply',
+//         headers: headers,
+//         body: body
+//     }, (err, res, body) => {
+//         console.log('status = ' + res.statusCode);
+//     });
+// }else{
     var conn = new sql.ConnectionPool(dbConfig);
     conn.connect().then(function () {
         var req = new sql.Request(conn);
@@ -89,6 +89,6 @@ if(msg != '1'){
             }
         });
     })
-}
+// }
 
 }
