@@ -28,7 +28,7 @@ app.use(bodyParser.json())
 app.post('/webhook', (req, res) => {
     let reply_token = req.body.events[0].replyToken
     let msg = req.body.events[0].message.text
-    let sender = req.body.events[0].source.userId
+    let sender = req.body.events[0].source.groupId
     reply(reply_token, msg, sender)
     res.sendStatus(200)
 })
