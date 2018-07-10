@@ -129,7 +129,7 @@ function groupMs(reply_token, gid){
                     // for(var i=0;i<rows.rowsAffected;i++){
                     //     if(rows.recordset[i].groupID == gid){
                     //         // grid = rows.recordset[i].g_id
-                            num=rows.rowsAffected
+                            num= 'num = '+ rows.rowsAffected
                     //         break
                     //     }else num=0;
                     // }
