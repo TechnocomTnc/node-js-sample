@@ -102,7 +102,7 @@ function groupMs(gid){
                     console.error(err);
                     conn.close();  
                 }else{
-                    if(rows.rowsAffected==0){
+                    if(rows==null){
                         let headers = {
                             'Content-Type': 'application/json',
                             'Authorization': 'Bearer {7YR60AJ855Zu1Etxsc7aCdFqhip1o8yAKj7PzLe90ClE9Po0fz5o81BeghtpCki4+zFZ7FrYjjbrFvQw84+Axi+P1zWPnxSCTl/lF5gVTDaDqdC5IHk30qnjo7GQ1hHKizexgGNpBPn/Fwz3slJqkQdB04t89/1O/w1cDnyilFU=}'
