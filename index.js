@@ -29,9 +29,9 @@ app.post('/webhook', (req, res) => {
     let reply_token = req.body.events[0].replyToken
     let msg = req.body.events[0].message.text
     let gid = req.body.events[0].source.groupId
-    reply(reply_token, msg)
-    // if(gid != null)
-    //     groupMs(reply_token,gid)
+    // reply(reply_token, msg)
+    if(gid != null)
+        groupMs(reply_token,gid)
     res.sendStatus(200)
 })
 app.listen(port)
@@ -126,13 +126,13 @@ function groupMs(reply_token, gid){
                     console.error(err);
                     conn.close();  
                 }else{
-                    for(var i=0;i<rows.rowsAffected;i++){
-                        if(rows.recordset[i].groupID == gid){
-                            // grid = rows.recordset[i].g_id
-                            num=1;
-                            break
-                        }else num=0;
-                    }
+                    // for(var i=0;i<rows.rowsAffected;i++){
+                    //     if(rows.recordset[i].groupID == gid){
+                    //         // grid = rows.recordset[i].g_id
+                            num=rows.rowsAffected
+                    //         break
+                    //     }else num=0;
+                    // }
 
                         let headers = {
                             'Content-Type': 'application/json',
@@ -142,7 +142,7 @@ function groupMs(reply_token, gid){
                             replyToken: reply_token,
                             messages: [{
                                     type: 'text',
-                                    text: rows.rowsAffected
+                                    text: num
                                 }]
                         })
                         request.post({
