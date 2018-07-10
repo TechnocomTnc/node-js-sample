@@ -161,8 +161,9 @@ function groupMs(msg, gid){
                                 // });
                             // });
 
-                            flag = 1
+                            
                         });
+                        flag = 1
 
 
 
