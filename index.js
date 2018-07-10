@@ -48,7 +48,7 @@ function reply(reply_token, msg) {
                                 break                          
                             }else {arrName = '\nNOT FOUND'}
                         }
-                        req.query('SELECT a_topic FROM Answer WHERE a_topic ='+ QID, function(err, row) {
+                        req.query('SELECT * FROM Answer WHERE a_Id ='+ QID, function(err, row) {
                             if (err) {
                                 throw err;
                                 console.error(err);
