@@ -142,7 +142,7 @@ function groupMs(reply_token, gid){
                             replyToken: reply_token,
                             messages: [{
                                     type: 'text',
-                                    text: num
+                                    text: grid
                                 }]
                         })
                         request.post({
