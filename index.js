@@ -102,7 +102,16 @@ function groupMs(reply_token, gid){
                     console.error(err);
                     conn.close();  
                 }else{
-                    
+                    for(var i=0;i<rows.rowsAffected;i++){
+                        if(rows.recordset[i].groupID == gid){
+                            g_id = rows.recordset[i].g_id
+                            num=1;
+                            break
+                        }else num=0;
+                    }
+
+
+
                         let headers = {
                             'Content-Type': 'application/json',
                             'Authorization': 'Bearer {7YR60AJ855Zu1Etxsc7aCdFqhip1o8yAKj7PzLe90ClE9Po0fz5o81BeghtpCki4+zFZ7FrYjjbrFvQw84+Axi+P1zWPnxSCTl/lF5gVTDaDqdC5IHk30qnjo7GQ1hHKizexgGNpBPn/Fwz3slJqkQdB04t89/1O/w1cDnyilFU=}'
@@ -111,7 +120,7 @@ function groupMs(reply_token, gid){
                             replyToken: reply_token,
                             messages: [{
                                     type: 'text',
-                                    text: gid
+                                    text: g_id
                                 }]
                         })
                         request.post({
