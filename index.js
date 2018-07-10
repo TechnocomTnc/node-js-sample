@@ -36,16 +36,14 @@ function reply(reply_token, msg) {
     var conn = new sql.ConnectionPool(dbConfig);
     conn.connect().then(function () {
         var req = new sql.Request(conn);
-        req.query('SELECT q_Id FROM Question WHERE q_topic = '+ msg ,function(row) {
-            var QID = row.recordset[0].q_Id
             
-            // req.query('SELECT a_topic FROM Answer', function(err, rows) {
-            //     if (err) {
-            //         throw err;
-            //         console.error(err);
-            //         conn.close();  
-            //     }else{                     
-            //         arrName = '\nTopic : '   + rows.recordset[0].q_topic
+            req.query('SELECT * FROM Question WHERE q_topic = '+ msg , function(err, rows) {
+                if (err) {
+                    throw err;
+                    console.error(err);
+                    conn.close();  
+                }else{                     
+                    arrName = '\nTopic : '   + rows.recordset[0].q_Id
                     
     
     
@@ -57,7 +55,7 @@ function reply(reply_token, msg) {
                         replyToken: reply_token,
                         messages: [{
                             type: 'text',
-                            text: 'Q '+ QID
+                            text: arrName
                         }]
                     })
                     request.post({
@@ -68,10 +66,9 @@ function reply(reply_token, msg) {
                         console.log('status = ' + res.statusCode);
                     });
                     conn.close();  
-                // }
+                }
             });
 
-        }) 
 
     })
 
