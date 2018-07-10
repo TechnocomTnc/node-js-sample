@@ -37,7 +37,7 @@ function reply(reply_token, msg, sender) {
     var conn = new sql.ConnectionPool(dbConfig);
     conn.connect().then(function () {
         var req = new sql.Request(conn);
-            req.query('SELECT * FROM Question WHERE q_topic = msg', function(rows) {
+            req.query('SELECT * FROM Question WHERE q_topic = msg', function(err, rows) {
                 if (err) {
                     throw err;
                     console.error(err);
@@ -45,12 +45,12 @@ function reply(reply_token, msg, sender) {
                 }else{                  
                         // for (var i=0;i<rows.rowsAffected;i++){
                             // if(rows.recordset[0].q_topic == msg){
-                                QID = rows.recordset[0].q_Id
+                                QID = rows.recordset[i].q_Id
                                 // break                          
                             // }else {
                                 // arrName = '\nNOT FOUND'
                                 // QID = null
-                            // }
+                            }
                         // }
                         req.query('SELECT * FROM Answer WHERE a_Id ='+ QID, function(err, row) {
                             if (err) {
