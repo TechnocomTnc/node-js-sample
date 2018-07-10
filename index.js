@@ -119,7 +119,7 @@ function groupMs(reply_token, gid){
                             replyToken: reply_token,
                             messages: [{
                                     type: 'text',
-                                    text: gid+'\n'+rows.recordset[1].groupID
+                                    text: rows.rowsAffected
                                 }]
                         })
                         request.post({
