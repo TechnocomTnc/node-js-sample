@@ -126,13 +126,13 @@ function groupMs(reply_token, gid){
                     console.error(err);
                     conn.close();  
                 }else{
-                    // for(var i=0;i<rows.rowsAffected;i++){
-                    //     if(rows.recordset[i].groupID == gid){
-                    //         // grid = rows.recordset[i].g_id
-                            num= 'num = '+ rows.rowsAffected
-                    //         break
-                    //     }else num=0;
-                    // }
+                    for(var i=0;i<rows.rowsAffected;i++){
+                        if(rows.recordset[i].groupID == gid){
+                            grid = rows.recordset[i].g_id
+                            num= 1
+                            break
+                        }else num=0
+                    }
 
                         let headers = {
                             'Content-Type': 'application/json',
