@@ -59,7 +59,7 @@ function reply(reply_token, msg, sender) {
                                 conn.close();  
                             }else{
                                 arrName = row.recordset[0].a_topic 
-                                if (sender == 'undefined')
+                                if (sender === 'undefined')
                                     sender = '0000'
                                 let headers = {
                                     'Content-Type': 'application/json',
