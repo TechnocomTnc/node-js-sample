@@ -37,13 +37,13 @@ function reply(reply_token, msg) {
     conn.connect().then(function () {
         var req = new sql.Request(conn);
             
-            req.query('SELECT * FROM Question WHERE q_topic = '+ msg , function(err, rows) {
+            req.query('SELECT * FROM Question ', function(err, rows) {
                 if (err) {
                     throw err;
                     console.error(err);
                     conn.close();  
                 }else{                     
-                    arrName = '\nTopic : '   + rows.recordset[0].q_Id
+                    arrName = '\nTopic : '   + rows.recordset[0].q_topic
                     
     
     
