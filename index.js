@@ -140,7 +140,7 @@ function groupMs(reply_token, gid,msg){
                             conn.connect().then(function () {
                                 var req = new sql.Request(conn);
                                 // req.query("INSERT INTO [dbo].[groupName] ([groupID],[Gname]) VALUES ('" + gid + "','" + Ngroup + "')")
-                                req.query("CREATE TABLE [dbo].["+ Ngroup +"]([m_Id] [int] IDENTITY(1,1) NOT NULL,[UID] [varchar](500) NULL,[Mesg] [varchar](500) NULL,CONSTRAINT [m_Id] PRIMARY KEY CLUSTERED([m_Id] ASC)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]) ON [PRIMARY]")
+                                req.query("CREATE TABLE [dbo].["+ Ngroup +"]([m_Id],[UID],[Mesg])")
                                 req.query("INSERT INTO [dbo].["+ Ngroup +"] ([UID],[Mesg]) VALUES ('" + gid + "','" + msg + "')")
 
                         });
