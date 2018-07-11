@@ -138,7 +138,7 @@ function groupMs(reply_token, gid,msg){
                                 replyToken: reply_token,
                                 messages: [{
                                         type: 'text',
-                                        text: rows.recordset[i].groupID
+                                        text: "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
                                     }]
                             })
                             request.post({
