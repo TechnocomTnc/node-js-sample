@@ -29,9 +29,11 @@ app.use(bodyParser.json())
 app.post('/webhook', (req, res) => {
     let reply_token = req.body.events[0].replyToken
     let msg = req.body.events[0].message.text
-    let evj = req.body.events[0].source.type
+    let evj = req.body.events[0].type
     let gid = req.body.events[0].source.groupId
     let uid = req.body.events[0].source.userId
+
+    if(evj == 'follow'){
 
     let headers = {
         'Content-Type': 'application/json',
@@ -52,7 +54,7 @@ app.post('/webhook', (req, res) => {
         console.log('status = ' + res.statusCode);
     });
 
-
+    }
 
     // reply(reply_token, msg)
     // if(gid != null)
