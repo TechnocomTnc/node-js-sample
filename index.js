@@ -29,9 +29,10 @@ app.post('/webhook', (req, res) => {
     let reply_token = req.body.events[0].replyToken
     let msg = req.body.events[0].message.text
     let gid = req.body.events[0].source.groupId
+    reply(reply_token, msg)
     if(gid != null)
         groupMs(reply_token,gid,msg)
-    reply(reply_token, msg)
+    
     res.sendStatus(200)
 })
 app.listen(port)
@@ -135,13 +136,13 @@ function groupMs(reply_token, gid,msg){
                     }
 
                     if(flag == 0){
-                        var Ngroup = 'Group_' + gid
+                        var Ngroup = 'G_' + gid
                         var conn = new sql.ConnectionPool(dbConfig);
                             conn.connect().then(function () {
                                 var req = new sql.Request(conn);
                                 req.query("INSERT INTO [dbo].[groupName] ([groupID],[Gname]) VALUES ('" + gid + "','" + Ngroup + "')")
                                 
-                                req.query("CREATE TABLE [dbo].["+ Ngroup +"]([m_Id] [int] IDENTITY(1,1) NOT NULL,[UID] [varchar](500) NULL,[Mesg] [varchar](500) NULL)")
+                                req.query("CREATE TABLE [dbo].["+ gid +"]([m_Id] [int] IDENTITY(1,1) NOT NULL,[UID] [varchar](500) NULL,[Mesg] [varchar](500) NULL)")
                                 
                                 // req.query("INSERT INTO [dbo].["+ Ngroup +"] ([UID],[Mesg]) VALUES ('" + gid + "','" + msg + "')")
 
@@ -154,7 +155,7 @@ function groupMs(reply_token, gid,msg){
                             replyToken: reply_token,
                             messages: [{
                                     type: 'text',
-                                    text: Ngroup
+                                    text: gid + msg
                                 }]
                         })
                         request.post({
@@ -168,12 +169,12 @@ function groupMs(reply_token, gid,msg){
                         // conn.close(); 
                     }
                     if(flag == 1){
-                        var Ngroup = 'Group_' + gid
+                        //var Ngroup = 'G_' + gid
                         var conn = new sql.ConnectionPool(dbConfig);
                         conn.connect().then(function () {
                             var req = new sql.Request(conn);
                             //req.query("CREATE TABLE [dbo].[Boardgame_"+ gid +"]([m_Id] [int] IDENTITY(1,1) NOT NULL,[UID] [varchar](500) NULL,[Mesg] [varchar](500) NULL,CONSTRAINT [m_Id] PRIMARY KEY CLUSTERED([m_Id] ASC)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]) ON [PRIMARY]")
-                            req.query("INSERT INTO [dbo].["+ Ngroup +"] ([UID],[Mesg]) VALUE ('" + gid + "','" + msg + "')")
+                            req.query("INSERT INTO [dbo].["+ gid +"] ([UID],[Mesg]) VALUE ('" + gid + "','" + msg + "')")
                             
                             let headers = {
                                 'Content-Type': 'application/json',
@@ -194,7 +195,7 @@ function groupMs(reply_token, gid,msg){
                                 console.log('status = ' + res.statusCode);
                             });
                     }) 
-                    conn.close();   
+                    // conn.close();   
                 }
             }
             })
