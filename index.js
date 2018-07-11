@@ -29,9 +29,10 @@ app.post('/webhook', (req, res) => {
     let reply_token = req.body.events[0].replyToken
     let msg = req.body.events[0].message.text
     let gid = req.body.events[0].source.groupId
+    let uid = req.body.events[0].source.userId
     reply(reply_token, msg)
     if(gid != null)
-        groupMs(reply_token,gid,msg)
+        groupMs(uid,gid,msg)
     
     res.sendStatus(200)
 })
@@ -116,7 +117,7 @@ function reply(reply_token, msg) {
 }
 
 
-function groupMs(reply_token, gid,msg){
+function groupMs(uid,gid,msg){
     var flag,grid;
     var conn = new sql.ConnectionPool(dbConfig);
     conn.connect().then(function () {
@@ -129,73 +130,28 @@ function groupMs(reply_token, gid,msg){
                 }else{
                     for(var i=0;i<rows.rowsAffected;i++){
                         if(rows.recordset[i].groupID == gid){
-                            
-                           flag = 1
+                            var conn = new sql.ConnectionPool(dbConfig);
+                            conn.connect().then(function () {
+                                var req = new sql.Request(conn);            
+                                req.query("INSERT INTO [dbo].["+ gid +"] ([UID],[Mesg]) VALUES ('" + uid + "','" + msg + "')")
+                                })   
                             break
-                        }else flag = 0
+                        }else flag = 1
                     }
-                    if(flag == 0){
-                        var Ngroup = 'G_' + gid
+                    if(flag == 1){
                         var conn = new sql.ConnectionPool(dbConfig);
                             conn.connect().then(function () {
                                 var req = new sql.Request(conn);
                                 req.query("INSERT INTO [dbo].[groupName] ([groupID],[Gname]) VALUES ('" + gid + "','" + gid + "')")
-                                
-                                req.query("CREATE TABLE [dbo].["+ gid +"]([m_Id] [int] IDENTITY(1,1) NOT NULL,[UID] [varchar](500) NULL,[Mesg] [varchar](500) NULL)")
-                                
+                                req.query("CREATE TABLE [dbo].["+ gid +"]([m_Id] [int] IDENTITY(1,1) NOT NULL,[UID] [varchar](500) NULL,[Mesg] [varchar](500) NULL)")                      
                                 // req.query("INSERT INTO [dbo].["+ Ngroup +"] ([UID],[Mesg]) VALUES ('" + gid + "','" + msg + "')")
-
                         });
-                        // let headers = {
-                        //     'Content-Type': 'application/json',
-                        //     'Authorization': 'Bearer {7YR60AJ855Zu1Etxsc7aCdFqhip1o8yAKj7PzLe90ClE9Po0fz5o81BeghtpCki4+zFZ7FrYjjbrFvQw84+Axi+P1zWPnxSCTl/lF5gVTDaDqdC5IHk30qnjo7GQ1hHKizexgGNpBPn/Fwz3slJqkQdB04t89/1O/w1cDnyilFU=}'
-                        // }
-                        // let body = JSON.stringify({
-                        //     replyToken: reply_token,
-                        //     messages: [{
-                        //             type: 'text',
-                        //             text: gid + msg
-                        //         }]
-                        // })
-                        // request.post({
-                        //     url: 'https://api.line.me/v2/bot/message/reply',
-                        //     headers: headers,
-                        //     body: body
-                        // }, (err, res, body) => {
-                        //     console.log('status = ' + res.statusCode);
-                        // });
-                        flag = 1
-                        // conn.close(); 
-                    }
-                    if(flag == 1){
-                        //var Ngroup = 'G_' + gid
                         var conn = new sql.ConnectionPool(dbConfig);
                         conn.connect().then(function () {
-                            var req = new sql.Request(conn);
-                            //req.query("CREATE TABLE [dbo].[Boardgame_"+ gid +"]([m_Id] [int] IDENTITY(1,1) NOT NULL,[UID] [varchar](500) NULL,[Mesg] [varchar](500) NULL,CONSTRAINT [m_Id] PRIMARY KEY CLUSTERED([m_Id] ASC)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]) ON [PRIMARY]")
+                            var req = new sql.Request(conn);            
                             req.query("INSERT INTO [dbo].["+ gid +"] ([UID],[Mesg]) VALUES ('" + gid + "','" + msg + "')")
-                            
-                            let headers = {
-                                'Content-Type': 'application/json',
-                                'Authorization': 'Bearer {7YR60AJ855Zu1Etxsc7aCdFqhip1o8yAKj7PzLe90ClE9Po0fz5o81BeghtpCki4+zFZ7FrYjjbrFvQw84+Axi+P1zWPnxSCTl/lF5gVTDaDqdC5IHk30qnjo7GQ1hHKizexgGNpBPn/Fwz3slJqkQdB04t89/1O/w1cDnyilFU=}'
-                            }
-                            let body = JSON.stringify({
-                                replyToken: reply_token,
-                                messages: [{
-                                        type: 'text',
-                                        text: msg
-                                    }]
-                            })
-                            request.post({
-                                url: 'https://api.line.me/v2/bot/message/reply',
-                                headers: headers,
-                                body: body
-                            }, (err, res, body) => {
-                                console.log('status = ' + res.statusCode);
-                            });
-                    }) 
-                    // conn.close();   
-                }
+                    })   
+                    }
             }
             })
         })
