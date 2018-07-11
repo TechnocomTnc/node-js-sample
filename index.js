@@ -129,12 +129,31 @@ function groupMs(reply_token, gid,msg){
                 }else{
                     for(var i=0;i<rows.rowsAffected;i++){
                         if(rows.recordset[i].groupID == gid){
-                            grid = rows.recordset[i].g_Id
+                            
+                            let headers = {
+                                'Content-Type': 'application/json',
+                                'Authorization': 'Bearer {7YR60AJ855Zu1Etxsc7aCdFqhip1o8yAKj7PzLe90ClE9Po0fz5o81BeghtpCki4+zFZ7FrYjjbrFvQw84+Axi+P1zWPnxSCTl/lF5gVTDaDqdC5IHk30qnjo7GQ1hHKizexgGNpBPn/Fwz3slJqkQdB04t89/1O/w1cDnyilFU=}'
+                            }
+                            let body = JSON.stringify({
+                                replyToken: reply_token,
+                                messages: [{
+                                        type: 'text',
+                                        text: rows.recordset[i].groupID
+                                    }]
+                            })
+                            request.post({
+                                url: 'https://api.line.me/v2/bot/message/reply',
+                                headers: headers,
+                                body: body
+                            }, (err, res, body) => {
+                                console.log('status = ' + res.statusCode);
+                            });
+
+
                            flag = 1
                             break
                         }else flag = 0
                     }
-
                     if(flag == 0){
                         var Ngroup = 'G_' + gid
                         var conn = new sql.ConnectionPool(dbConfig);
@@ -147,24 +166,24 @@ function groupMs(reply_token, gid,msg){
                                 // req.query("INSERT INTO [dbo].["+ Ngroup +"] ([UID],[Mesg]) VALUES ('" + gid + "','" + msg + "')")
 
                         });
-                        let headers = {
-                            'Content-Type': 'application/json',
-                            'Authorization': 'Bearer {7YR60AJ855Zu1Etxsc7aCdFqhip1o8yAKj7PzLe90ClE9Po0fz5o81BeghtpCki4+zFZ7FrYjjbrFvQw84+Axi+P1zWPnxSCTl/lF5gVTDaDqdC5IHk30qnjo7GQ1hHKizexgGNpBPn/Fwz3slJqkQdB04t89/1O/w1cDnyilFU=}'
-                        }
-                        let body = JSON.stringify({
-                            replyToken: reply_token,
-                            messages: [{
-                                    type: 'text',
-                                    text: gid + msg
-                                }]
-                        })
-                        request.post({
-                            url: 'https://api.line.me/v2/bot/message/reply',
-                            headers: headers,
-                            body: body
-                        }, (err, res, body) => {
-                            console.log('status = ' + res.statusCode);
-                        });
+                        // let headers = {
+                        //     'Content-Type': 'application/json',
+                        //     'Authorization': 'Bearer {7YR60AJ855Zu1Etxsc7aCdFqhip1o8yAKj7PzLe90ClE9Po0fz5o81BeghtpCki4+zFZ7FrYjjbrFvQw84+Axi+P1zWPnxSCTl/lF5gVTDaDqdC5IHk30qnjo7GQ1hHKizexgGNpBPn/Fwz3slJqkQdB04t89/1O/w1cDnyilFU=}'
+                        // }
+                        // let body = JSON.stringify({
+                        //     replyToken: reply_token,
+                        //     messages: [{
+                        //             type: 'text',
+                        //             text: gid + msg
+                        //         }]
+                        // })
+                        // request.post({
+                        //     url: 'https://api.line.me/v2/bot/message/reply',
+                        //     headers: headers,
+                        //     body: body
+                        // }, (err, res, body) => {
+                        //     console.log('status = ' + res.statusCode);
+                        // });
                         flag = 1
                         // conn.close(); 
                     }
