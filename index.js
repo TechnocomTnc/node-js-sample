@@ -42,7 +42,7 @@ app.post('/webhook', (req, res) => {
         to:'U44c2e72994ecff53947def77dbe79b62',
         messages: [{
                 type: 'text',
-                text: 'sssdsd'
+                text: req.body.events[0].type
             }]
     })
     request.post({
