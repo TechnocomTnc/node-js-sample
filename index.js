@@ -135,6 +135,7 @@ function groupMs(uid,gid,msg){
                                 var req = new sql.Request(conn);            
                                 req.query("INSERT INTO [dbo].["+ gid +"] ([UID],[Mesg]) VALUES ('" + uid + "','" + msg + "')")
                                 })   
+                            flag = 0
                             break
                         }else flag = 1
                     }
