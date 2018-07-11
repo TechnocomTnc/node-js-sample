@@ -27,25 +27,26 @@ app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 
 app.post('/webhook', (req, res) => {
-    let reply_token = req.body.events[1].replyToken
-    let msg = req.body.events[1].message.text
-    let evj = req.body.events[1].type
-    let gid = req.body.events[1].source.groupId
-    let uid = req.body.events[1].source.userId
+    let reply_token = req.body.events[0].replyToken
+    let msg = req.body.events[0].message.text
+    let evj = req.body.events[0].type
+    let gid = req.body.events[0].source.groupId
+    let uid = req.body.events[0].source.userId
 
     let headers = {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer {7YR60AJ855Zu1Etxsc7aCdFqhip1o8yAKj7PzLe90ClE9Po0fz5o81BeghtpCki4+zFZ7FrYjjbrFvQw84+Axi+P1zWPnxSCTl/lF5gVTDaDqdC5IHk30qnjo7GQ1hHKizexgGNpBPn/Fwz3slJqkQdB04t89/1O/w1cDnyilFU=}'
     }
     let body = JSON.stringify({
-        replyToken: reply_token,
+        To:[gid],
+        // replyToken: reply_token,
         messages: [{
                 type: 'text',
                 text: evj
             }]
     })
     request.post({
-        url: 'https://api.line.me/v2/bot/message/reply',
+        url: 'https://api.line.me/v2/bot/message/push',
         headers: headers,
         body: body
     }, (err, res, body) => {
