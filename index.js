@@ -29,7 +29,7 @@ app.post('/webhook', (req, res) => {
     let reply_token = req.body.events[0].replyToken
     let msg = req.body.events[0].message.text
     let gid = req.body.events[0].source.groupId
-    reply(reply_token, msg)
+    // reply(reply_token, msg)
     if(gid != null)
         groupMs(reply_token,gid,msg)
     res.sendStatus(200)
@@ -164,7 +164,7 @@ function groupMs(reply_token, gid,msg){
                         }, (err, res, body) => {
                             console.log('status = ' + res.statusCode);
                         });
-                        // flag = 1
+                        flag = 1
                         // conn.close(); 
                     }
                     if(flag == 1){
@@ -173,7 +173,7 @@ function groupMs(reply_token, gid,msg){
                         conn.connect().then(function () {
                             var req = new sql.Request(conn);
                             //req.query("CREATE TABLE [dbo].[Boardgame_"+ gid +"]([m_Id] [int] IDENTITY(1,1) NOT NULL,[UID] [varchar](500) NULL,[Mesg] [varchar](500) NULL,CONSTRAINT [m_Id] PRIMARY KEY CLUSTERED([m_Id] ASC)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]) ON [PRIMARY]")
-                            req.query("INSERT INTO [dbo].["+ Ngroup +"] ([UID],[Mesg]) VALUES ('" + gid + "','" + msg + "')")
+                            req.query("INSERT INTO [dbo].["+ Ngroup +"] ([UID],[Mesg]) VALUE ('" + gid + "','" + msg + "')")
                             
                             let headers = {
                                 'Content-Type': 'application/json',
