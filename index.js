@@ -11,6 +11,13 @@ var sql = require('mssql');
 var sqlInstance = require("mssql");
 var nodemailer = require('nodemailer');
 
+const line = require('@line/bot-sdk');
+
+
+
+
+
+
 
 var dbConfig = {
         user: 'sa',
@@ -31,6 +38,47 @@ app.post('/webhook', (req, res) => {
     let msgtype = req.body.events[0].message.type
     let gid = req.body.events[0].source.groupId
     let uid = req.body.events[0].source.userId
+    var msID = req.body.events[0].message.id
+    
+    const client = new line.Client({
+        channelAccessToken: '7YR60AJ855Zu1Etxsc7aCdFqhip1o8yAKj7PzLe90ClE9Po0fz5o81BeghtpCki4+zFZ7FrYjjbrFvQw84+Axi+P1zWPnxSCTl/lF5gVTDaDqdC5IHk30qnjo7GQ1hHKizexgGNpBPn/Fwz3slJqkQdB04t89/1O/w1cDnyilFU'
+      });
+      
+      client.getMessageContent(msID)
+        .then((stream) => {
+          stream.on('data', (chunk) => {
+
+            let headers = {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer {7YR60AJ855Zu1Etxsc7aCdFqhip1o8yAKj7PzLe90ClE9Po0fz5o81BeghtpCki4+zFZ7FrYjjbrFvQw84+Axi+P1zWPnxSCTl/lF5gVTDaDqdC5IHk30qnjo7GQ1hHKizexgGNpBPn/Fwz3slJqkQdB04t89/1O/w1cDnyilFU=}'
+            }
+            let body = JSON.stringify({
+                replyToken: reply_token,
+                messages: [{
+                        type: 'text',
+                        text: msID
+                    }]
+            })
+            request.post({
+                url: 'https://api.line.me/v2/bot/message/reply',
+                headers: headers,
+                body: body
+            }, (err, res, body) => {
+                console.log('status = ' + res.statusCode);
+            });
+
+
+
+           
+          });
+          stream.on('error', (err) => {
+            // error handling
+          });
+        });
+
+
+
+
     if(msgtype == 'text') var text = req.body.events[0].message.text
     reply(reply_token, text)
     if(gid != null)
