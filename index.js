@@ -29,7 +29,7 @@ app.use(bodyParser.json())
 app.post('/webhook', (req, res) => {
     let reply_token = req.body.events[0].replyToken
     let msg = req.body.events[0].message.text
-    let evj = req.body.events[1].type
+    let evj = req.body.events[0].source.type
     let gid = req.body.events[0].source.groupId
     let uid = req.body.events[0].source.userId
 
