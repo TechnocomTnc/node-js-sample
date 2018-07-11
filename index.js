@@ -29,7 +29,7 @@ app.post('/webhook', (req, res) => {
     let reply_token = req.body.events[0].replyToken
     let msg = req.body.events[0].message.text
     let gid = req.body.events[0].source.groupId
-    // reply(reply_token, msg)
+    reply(reply_token, msg)
     if(gid != null)
         groupMs(reply_token,gid,msg)
     res.sendStatus(200)
@@ -45,15 +45,15 @@ function reply(reply_token, msg) {
                     console.error(err);
                     conn.close();  
                 }else{                  
-                        // for (var i=0;i<rows.rowsAffected;i++){
-                        //     if(rows.recordset[i].q_topic == msg){
-                        //         QID = rows.recordset[i].q_Id
-                        //         break                          
-                        //     }else {
-                                arrName = 'num = '+ rows.rowsAffected
+                        for (var i=0;i<rows.rowsAffected;i++){
+                            if(rows.recordset[i].q_topic == msg){
+                                QID = rows.recordset[i].q_Id
+                                break                          
+                            }else {
+                                arrName = 'NOT FOUND'
                                 QID = null
-                        //     }
-                        // }
+                            }
+                        }
                         if(QID!=null){
                             req.query('SELECT * FROM Answer WHERE a_Id ='+ QID, function(err, row) {
                                 if (err) {
@@ -139,7 +139,7 @@ function groupMs(reply_token, gid,msg){
                         var conn = new sql.ConnectionPool(dbConfig);
                             conn.connect().then(function () {
                                 var req = new sql.Request(conn);
-                                req.query("INSERT INTO [dbo].[groupName] ([groupID],[Gname]) VALUES ('" + gid + "','" + Ngroup + "')")
+                                //req.query("INSERT INTO [dbo].[groupName] ([groupID],[Gname]) VALUES ('" + gid + "','" + Ngroup + "')")
                                 
                                 req.query("CREATE TABLE [dbo].["+ Ngroup +"]([m_Id] [int] IDENTITY(1,1) NOT NULL,[UID] [varchar](500) NULL,[Mesg] [varchar](500) NULL)")
                                 
