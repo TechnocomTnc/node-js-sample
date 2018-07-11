@@ -27,11 +27,11 @@ app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 
 app.post('/webhook', (req, res) => {
-    let reply_token = req.body.events.replyToken
-    let msg = req.body.events.message.text
-    let evj = req.body.events.type
-    let gid = req.body.events.source.groupId
-    let uid = req.body.events.source.userId
+    let reply_token = req.body.events[1].replyToken
+    let msg = req.body.events[1].message.text
+    let evj = req.body.events[1].type
+    let gid = req.body.events[1].source.groupId
+    let uid = req.body.events[1].source.userId
 
     let headers = {
         'Content-Type': 'application/json',
