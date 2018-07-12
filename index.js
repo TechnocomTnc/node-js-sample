@@ -60,7 +60,7 @@ app.post('/webhook', (req, res) => {
                 replyToken: reply_token,
                 messages: [{
                         type: 'text',
-                        text: JSON.stringify(binary)
+                        text: JSON.stringify(binary) + '.jpeg'
                     }
                 ]
             })
