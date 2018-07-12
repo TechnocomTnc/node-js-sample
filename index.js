@@ -47,7 +47,7 @@ app.post('/webhook', (req, res) => {
       client.getMessageContent(msID)
         .then((stream) => {
           stream.on('data', (chunk) => {
-             
+            str += JSON.stringify(chunk)
           });
           stream.on('end', (chunk) => {
             
@@ -59,7 +59,7 @@ app.post('/webhook', (req, res) => {
                 replyToken: reply_token,
                 messages: [{
                         type: 'text',
-                        text: JSON.stringify(chunk)
+                        text: str
                     }]
             })
             request.post({
