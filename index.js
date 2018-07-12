@@ -49,7 +49,7 @@ app.post('/webhook', (req, res) => {
           stream.on('data', (chunk) => {
             str += JSON.stringify(chunk)
           });
-          stream.on('end', (chunk) => {
+          stream.on('end', (err) => {
             
             let headers = {
                 'Content-Type': 'application/json',
