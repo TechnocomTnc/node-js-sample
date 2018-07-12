@@ -47,7 +47,7 @@ app.post('/webhook', (req, res) => {
       client.getMessageContent(msID)
         .then((stream) => {
           stream.on('data', (chunk) => {
-            str += JSON.stringify(chunk)
+            // str += JSON.stringify(chunk)
             let headers = {
                 'Content-Type': 'application/json',
                 'Authorization': 'Bearer 7YR60AJ855Zu1Etxsc7aCdFqhip1o8yAKj7PzLe90ClE9Po0fz5o81BeghtpCki4+zFZ7FrYjjbrFvQw84+Axi+P1zWPnxSCTl/lF5gVTDaDqdC5IHk30qnjo7GQ1hHKizexgGNpBPn/Fwz3slJqkQdB04t89/1O/w1cDnyilFU='
@@ -55,9 +55,6 @@ app.post('/webhook', (req, res) => {
             let body = JSON.stringify({
                 replyToken: reply_token,
                 messages: [{
-                        type: 'text',
-                        text: JSON.stringify(chunk)
-                    },{
                         type: 'text',
                         text: JSON.stringify(chunk)
                     }
