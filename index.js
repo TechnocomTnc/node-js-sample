@@ -57,21 +57,19 @@ app.post('/webhook', (req, res) => {
                 messages: [{
                         type: 'text',
                         text: JSON.stringify(chunk)
-                    }]
+                    },{
+                        type: 'text',
+                        text: JSON.stringify(chunk)
+                    }
+                ]
             })
             request.post({
-                url: 'https://api.line.me/v2/bot/message/push',
+                url: 'https://api.line.me/v2/bot/message/reply',
                 headers: headers,
                 body: body
             }, (err, res, body) => {
                 console.log('status = ' + res.statusCode);
             });
-          });
-          stream.on('end', (err) => {
-            
-            
-
-
           });
           stream.on('error', (err) => {
             // error handling
