@@ -48,9 +48,6 @@ app.post('/webhook', (req, res) => {
         .then((stream) => {
           stream.on('data', (chunk) => {
             str += JSON.stringify(chunk)
-          });
-          stream.on('end', (err) => {
-            
             let headers = {
                 'Content-Type': 'application/json',
                 'Authorization': 'Bearer 7YR60AJ855Zu1Etxsc7aCdFqhip1o8yAKj7PzLe90ClE9Po0fz5o81BeghtpCki4+zFZ7FrYjjbrFvQw84+Axi+P1zWPnxSCTl/lF5gVTDaDqdC5IHk30qnjo7GQ1hHKizexgGNpBPn/Fwz3slJqkQdB04t89/1O/w1cDnyilFU='
@@ -63,12 +60,16 @@ app.post('/webhook', (req, res) => {
                     }]
             })
             request.post({
-                url: 'https://api.line.me/v2/bot/message/reply',
+                url: 'https://api.line.me/v2/bot/message/push',
                 headers: headers,
                 body: body
             }, (err, res, body) => {
                 console.log('status = ' + res.statusCode);
             });
+          });
+          stream.on('end', (err) => {
+            
+            
 
 
           });
