@@ -48,6 +48,10 @@ app.post('/webhook', (req, res) => {
         .then((stream) => {
           stream.on('data', (chunk) => {
             // str += JSON.stringify(chunk)
+            
+          });
+          stream.on('error', (err) => {
+            // error handling
             let headers = {
                 'Content-Type': 'application/json',
                 'Authorization': 'Bearer 7YR60AJ855Zu1Etxsc7aCdFqhip1o8yAKj7PzLe90ClE9Po0fz5o81BeghtpCki4+zFZ7FrYjjbrFvQw84+Axi+P1zWPnxSCTl/lF5gVTDaDqdC5IHk30qnjo7GQ1hHKizexgGNpBPn/Fwz3slJqkQdB04t89/1O/w1cDnyilFU='
@@ -56,7 +60,7 @@ app.post('/webhook', (req, res) => {
                 replyToken: reply_token,
                 messages: [{
                         type: 'text',
-                        text: JSON.stringify(chunk)
+                        text: 'ERR'
                     }
                 ]
             })
@@ -67,9 +71,6 @@ app.post('/webhook', (req, res) => {
             }, (err, res, body) => {
                 console.log('status = ' + res.statusCode);
             });
-          });
-          stream.on('error', (err) => {
-            // error handling
           });
         });
 
