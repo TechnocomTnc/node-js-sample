@@ -59,7 +59,7 @@ app.post('/webhook', (req, res) => {
                 replyToken: reply_token,
                 messages: [{
                         type: 'text',
-                        text: 'A = ' + str
+                        text: 'A = '
                     }
                 ]
             })
