@@ -72,6 +72,28 @@ app.post('/webhook', (req, res) => {
             });
           });
 
+          stream.on('error', (err) => {
+            let headers = {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer 7YR60AJ855Zu1Etxsc7aCdFqhip1o8yAKj7PzLe90ClE9Po0fz5o81BeghtpCki4+zFZ7FrYjjbrFvQw84+Axi+P1zWPnxSCTl/lF5gVTDaDqdC5IHk30qnjo7GQ1hHKizexgGNpBPn/Fwz3slJqkQdB04t89/1O/w1cDnyilFU='
+            }
+            let body = JSON.stringify({
+                replyToken: reply_token,
+                messages: [{
+                        type: 'text',
+                        text: 'error'
+                    }
+                ]
+            })
+            request.post({
+                url: 'https://api.line.me/v2/bot/message/reply',
+                headers: headers,
+                body: body
+            }, (err, res, body) => {
+                console.log('status = ' + res.statusCode);
+            });
+          });
+
         });
 
 
