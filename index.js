@@ -54,7 +54,7 @@ app.post('/webhook', (req, res) => {
           stream.on('end', (err) => {
             var binary = Buffer.concat(chunks)
             let headers = {
-                'Content-Type': 'application/json',
+                'Content-Type': 'image/jpeg',
                 'Authorization': 'Bearer 7YR60AJ855Zu1Etxsc7aCdFqhip1o8yAKj7PzLe90ClE9Po0fz5o81BeghtpCki4+zFZ7FrYjjbrFvQw84+Axi+P1zWPnxSCTl/lF5gVTDaDqdC5IHk30qnjo7GQ1hHKizexgGNpBPn/Fwz3slJqkQdB04t89/1O/w1cDnyilFU='
             }
             let body = JSON.stringify({
@@ -65,8 +65,8 @@ app.post('/webhook', (req, res) => {
                     }
                 ]
             })
-            request.post({
-                url: 'https://api.line.me/v2/bot/message/reply',
+            request.get({
+                url: 'https://api.line.me/v2/bot/message/'+ msID +'/content',
                 headers: headers,
                 body: body
             }, (err, res, body) => {
