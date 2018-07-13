@@ -48,11 +48,11 @@ app.post('/webhook', (req, res) => {
         .then((stream) => {
             stream.setEncoding('binary')
           stream.on('data', (chunk) => {
-            chunks.push(chunk)
+            this.chunks.push(chunk)
             
           });
           stream.on('end', (err) => {
-            //var binary = Buffer.concat(chunks)
+            var binary = Buffer.concat(this.chunks)
             let headers = {
                 'Content-Type': 'application/json',
                 'Authorization': 'Bearer 7YR60AJ855Zu1Etxsc7aCdFqhip1o8yAKj7PzLe90ClE9Po0fz5o81BeghtpCki4+zFZ7FrYjjbrFvQw84+Axi+P1zWPnxSCTl/lF5gVTDaDqdC5IHk30qnjo7GQ1hHKizexgGNpBPn/Fwz3slJqkQdB04t89/1O/w1cDnyilFU='
