@@ -39,6 +39,7 @@ app.post('/webhook', (req, res) => {
     let gid = req.body.events[0].source.groupId
     let uid = req.body.events[0].source.userId
     var msID = req.body.events[0].message.id
+    var abc = req.header
     var chunks = [];
     const client = new line.Client({
         channelAccessToken: '7YR60AJ855Zu1Etxsc7aCdFqhip1o8yAKj7PzLe90ClE9Po0fz5o81BeghtpCki4+zFZ7FrYjjbrFvQw84+Axi+P1zWPnxSCTl/lF5gVTDaDqdC5IHk30qnjo7GQ1hHKizexgGNpBPn/Fwz3slJqkQdB04t89/1O/w1cDnyilFU'
@@ -52,7 +53,7 @@ app.post('/webhook', (req, res) => {
             
           });
           stream.on('end', (err) => {
-            var binary = Buffer.concat(this.chunks)
+            // var binary = Buffer.concat(this.chunks)
             let headers = {
                 'Content-Type': 'application/json',
                 'Authorization': 'Bearer 7YR60AJ855Zu1Etxsc7aCdFqhip1o8yAKj7PzLe90ClE9Po0fz5o81BeghtpCki4+zFZ7FrYjjbrFvQw84+Axi+P1zWPnxSCTl/lF5gVTDaDqdC5IHk30qnjo7GQ1hHKizexgGNpBPn/Fwz3slJqkQdB04t89/1O/w1cDnyilFU='
@@ -61,7 +62,7 @@ app.post('/webhook', (req, res) => {
                 replyToken: reply_token,
                 messages: [{
                         type: 'text',
-                        text: 'A = '       
+                        text: 'A = ' + abc       
                     }
                 ]
             })
