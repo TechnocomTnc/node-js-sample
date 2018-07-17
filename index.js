@@ -84,7 +84,8 @@ function handleEvent(event) {
         case 'image':
           return handleImage(message, event.replyToken, event.source);
         case 'video':
-          return handleVideo(message, event.replyToken);
+          return handleText(message, event.replyToken, event.source);
+          //return handleVideo(message, event.replyToken);
         case 'audio':
           return handleAudio(message, event.replyToken);
         case 'location':
@@ -127,8 +128,8 @@ function handleText(message, replyToken, source) {
 
   switch (message.text) {
     case 'profile':
-      if (source.groupId) {
-        return client.getProfile(source.groupId)
+      if (source.userId) {
+        return client.getProfile(source.userId)
           .then((profile) => replyText(
             replyToken,
             [
@@ -286,7 +287,7 @@ function handleText(message, replyToken, source) {
       }
     default:
       console.log(`Echo message to ${replyToken}: ${message.text}`);
-      return replyText(replyToken, message.text);
+      return replyText(replyToken, message.type);
   }
 }
 
