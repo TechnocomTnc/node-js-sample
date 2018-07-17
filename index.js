@@ -127,7 +127,7 @@ function handleText(message, replyToken, source) {
 
   switch (message.text) {
     case 'profile':
-      if (source.userId) {
+      if (source.groupId) {
         return client.getProfile(source.groupId)
           .then((profile) => replyText(
             replyToken,
